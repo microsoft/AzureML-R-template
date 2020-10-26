@@ -1,18 +1,19 @@
 import os
 import argparse
 import azureml.core
-from azureml.core import Workspace, Experiment, Datastore, Dataset, RunConfiguration
+from azureml.core import Workspace, Experiment, Datastore, RunConfiguration
 from azureml.core.compute import AmlCompute, ComputeTarget
 from azureml.pipeline.core import Pipeline, PipelineData, PipelineParameter
-from azureml.pipeline.steps import PythonScriptStep
-from azureml.data.dataset_consumption_config import DatasetConsumptionConfig
+from azureml.pipeline.steps import RScriptStep
+from azureml.data.data_reference import DataReference
 
 print("Azure ML SDK version:", azureml.core.VERSION)
 
 parser = argparse.ArgumentParser("deploy_training_pipeline")
 parser.add_argument("--pipeline_name", type=str, help="Name of the pipeline that will be deployed", dest="pipeline_name", required=True)
 parser.add_argument("--build_number", type=str, help="Build number", dest="build_number", required=False)
-parser.add_argument("--dataset", type=str, help="Default dataset, referenced by name", dest="dataset", required=True)
+parser.add_argument("--datastore", type=str, help="Default datastore, referenced by name", dest="datastore", required=True)
+parser.add_argument("--data_path", type=str, help="Path to data directory in datastore", dest="data_path", required=True)
 parser.add_argument("--runconfig", type=str, help="Path to runconfig for pipeline", dest="runconfig", required=True)
 parser.add_argument("--source_directory", type=str, help="Path to model training code", dest="source_directory", required=True)
 args = parser.parse_args()
@@ -25,20 +26,23 @@ print(f'WS name: {ws.name}\nRegion: {ws.location}\nSubscription id: {ws.subscrip
 print('Loading runconfig for pipeline')
 runconfig = RunConfiguration.load(args.runconfig)
 
-print('Loading dataset')    
-training_dataset = Dataset.get_by_name(ws, args.dataset)
+print('Creating reference to training data for input to pipeline')  
+blob_datastore = Datastore.get(ws, args.datastore)
 
-# Parametrize dataset input to the pipeline
-training_dataset_parameter = PipelineParameter(name="training_dataset", default_value=training_dataset)
-training_dataset_consumption = DatasetConsumptionConfig("training_dataset", training_dataset_parameter).as_mount()
+blob_input_data = DataReference(
+    data_reference_name="input_data_reference",
+    datastore=blob_datastore,
+    path_on_datastore=args.data_path)
+print("DataReference object created")
 
-train_step = PythonScriptStep(name="train-step",
-                        runconfig=runconfig,
-                        source_directory=args.source_directory,
-                        script_name=runconfig.script,
-                        arguments=['--data-path', training_dataset_consumption],
-                        inputs=[training_dataset_consumption],
-                        allow_reuse=False)
+# Create single train step
+train_step = RScriptStep(name="train-step",
+                    runconfig=runconfig,
+                    source_directory=args.source_directory,
+                    script_name=runconfig.script,
+                    arguments=["--input_data", blob_input_data],
+                    inputs=[blob_input_data],
+                    allow_reuse=False)
 
 steps = [train_step]
 

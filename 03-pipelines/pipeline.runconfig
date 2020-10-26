@@ -1,7 +1,7 @@
 script: train.R
 arguments: [] # This is set in pipeline.py
 target: cpu-cluster
-framework: Python
+framework: R
 communicator: None
 nodeCount: 1
 environment:
@@ -10,10 +10,12 @@ environment:
   python:
     userManagedDependencies: false
     interpreterPath: python
-    condaDependenciesFile: ../../src/model1/aml_config/train-conda.yml
+    condaDependenciesFile: ../src/model1/aml_config/train-conda.yml
   docker:
     enabled: true
-    baseImage: mcr.microsoft.com/azureml/base:intelmpi2018.3-ubuntu16.04
+    baseImage: mcr.microsoft.com/azureml/base:openmpi3.1.2-ubuntu18.04
     arguments: []
+  r:
+    userManaged: true
 mpi:
     processCountPerNode: 1

@@ -7,19 +7,20 @@ library(caret)
 
 print("In train.R")
 
+# Get reference to this AML run to enable logging to the experiment.
+run <- get_current_run()
+
 options <- list(
-  make_option(c("--input_data")),
-  make_option(c("--output_train"))
+  make_option(c("--input_data"))
+  #make_option(c("--output_train"))
 )
 
 opt_parser <- OptionParser(option_list = options)
 opt <- parse_args(opt_parser)
+#paste(opt$input_data)
 
-paste(opt$input_data)
-paste(opt$output_train)
-
-print("Listing input data files...")
-list.files(opt$input_data)
+#print("Listing input data files...")
+#list.files(opt$input_data)
 
 # Read data files and drop PatientID column
 data_files <- list(file.path(opt$input_data, "diabetes.csv"),
@@ -58,7 +59,8 @@ accuracy <- calc_acc(actual = test$Diabetic,
                      predicted = predict(mod, newdata = test))
 
 # Log accuracy metric to run
-log_metric_to_run("Accuracy", accuracy)
+print(accuracy)
+log_metric_to_run("Accuracy", accuracy, run=run)
 
 output_dir <- "outputs"
 if (!dir.exists(output_dir)){

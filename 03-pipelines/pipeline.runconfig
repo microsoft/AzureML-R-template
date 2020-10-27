@@ -13,7 +13,7 @@ environment:
     condaDependenciesFile: ../src/model1/aml_config/train-conda.yml
   docker:
     enabled: true
-    baseImage: mcr.microsoft.com/azureml/base:openmpi3.1.2-ubuntu18.04
+    baseImage: <username>/<repository>:<tag>
     arguments: []
   r:
     userManaged: true

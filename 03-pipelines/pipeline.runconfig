@@ -13,7 +13,7 @@ environment:
     condaDependenciesFile: ../src/model1/aml_config/train-conda.yml
   docker:
     enabled: true
-    baseImage: <username>/<repository>:<tag>
+    baseImage: azuremlb384076d.azurecr.io/azureml/r-image:latest
     arguments: []
   r:
     userManaged: true

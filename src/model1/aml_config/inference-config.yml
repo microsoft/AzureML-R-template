@@ -1,17 +1,4 @@
-entryScript: score.R
+entryScript: _generated_score.py
 sourceDirectory: ./
-runtime: R
-environment:
-    environmentVariables:
-      EXAMPLE_ENV_VAR: EXAMPLE_VALUE
-    python:
-      userManagedDependencies: false
-      interpreterPath: python
-      condaDependenciesFile: ../src/model1/aml_config/train-conda.yml
-    docker:
-      enabled: true
-      baseImage: azuremlb384076d.azurecr.io/azureml/r-image:latest
-      arguments: []
-    r:
-      userManaged: true
-enableGpu: False
+runtime: python
+conda_file: aml_config/inference-conda.yml

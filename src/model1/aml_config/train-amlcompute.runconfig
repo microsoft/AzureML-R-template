@@ -1,29 +1,27 @@
-script: train.py
-arguments: [--data-path, /data]
+script: train.R
+arguments: [--input_data, $AZUREML_DATAREFERENCE_<DATA REFERENCE NAME>]
 target: cpu-cluster
-framework: Python
+framework: R
 communicator: None
 nodeCount: 1
 environment:
   environmentVariables:
     EXAMPLE_ENV_VAR: EXAMPLE_VALUE
   python:
-    userManagedDependencies: false
+    userManagedDependencies: true
     interpreterPath: python
     condaDependenciesFile: aml_config/train-conda.yml
   docker:
     enabled: true
-    baseImage: mcr.microsoft.com/azureml/base:intelmpi2018.3-ubuntu16.04
+    baseImage: <IMAGE_NAME>:<TAG>
     arguments: []
+  r:
+    userManaged: true
 mpi:
     processCountPerNode: 1
-data:
-  mydataset:
-    dataLocation:
-      dataset:
-        id: <PUT DATASET ID HERE>
-    mechanism: mount
-    pathOnCompute: /data
-    environmentVariableName: mydataset
-    createOutputDirectories: false
+dataReferences:
+  <DATA REFERENCE NAME>:
+    dataStoreName: <DATASTORE NAME>
+    pathOnDataStore: <PATH TO DATA ON DATASTORE>
+    mode: mount
     overwrite: false

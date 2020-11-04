@@ -1,14 +1,30 @@
-# Project
+# Azure Machine Learning R Acceleration Template
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+<!-- 
+Guidelines on README format: https://review.docs.microsoft.com/help/onboard/admin/samples/concepts/readme-template?branch=master
 
-As the maintainer of this project, please make a few updates:
+Guidance on onboarding samples to docs.microsoft.com/samples: https://review.docs.microsoft.com/help/onboard/admin/samples/process/onboarding?branch=master
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+Taxonomies for products and languages: https://review.docs.microsoft.com/new-hope/information-architecture/metadata/taxonomies?branch=master
+-->
+
+This repo features an Azure Machine Learning (AML) Acceleration template which enables you to quickly onboard your existing R code to AML. The template enables a smooth ML development process between your local machine and the Azure Cloud. Furthermore, it includes simple examples for running your model's training and batch inferencing as [Machine Learning Pipelines](https://docs.microsoft.com/en-us/azure/machine-learning/concept-ml-pipelines) for automation.
+
+## Getting Started
+
+We recommend you to follow the step-by-step path below, starting with Prerequisites and environment setup then progress through local/AmlCompute trainin, and automation:
+
+1. [Prerequisites](00-getting-started/README.md) - Setup of initial development environment and R compute environment.
+2. [Moving training to Azure Machine Learning](01-training/README.md) - Moving your training code to AML
+3. [Moving inferencing to Azure Machine Learning](02-inferencing/README.md) - Moving your prediction code to AML
+4. [Automating training and scoring using ML Pipelines](03-pipelines/README.md) - Running training and prediction code as a ML Pipeline
+5. [Automating ML Pipeline deployment](04-automation/README.md) - Deploying and testing ML Pipelines automatically using CI/CD
+
+
+## Authors
+
+* Scott Donohoo, AI Technical Specialist, Americas GBB
+* Anthony Martin, AI Cloud Solution Architect
 
 ## Contributing
 
@@ -23,11 +39,3 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## Trademarks
-
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.

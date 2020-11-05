@@ -2,10 +2,8 @@
 name: aml-train-deploy-workflow 
 on:
   push:
-    branches:
-      - master
-    # paths:
-    #   - 'code/*'
+    paths:
+      - '.github/workflows/train_deploy.yml'
 jobs:
   train:
     runs-on: ubuntu-latest

@@ -10,7 +10,7 @@ environment:
   python:
     userManagedDependencies: true
     interpreterPath: python
-    condaDependenciesFile: aml_config/train-conda.yml
+    condaDependenciesFile: train-conda.yml
   docker:
     enabled: true
     baseImage: azuremlb384076d.azurecr.io/azureml/r-image:latest

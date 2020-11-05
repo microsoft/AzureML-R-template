@@ -3,9 +3,9 @@ pipeline:
     default_compute: cpu-cluster
     steps:
       Step1:
-        runconfig: "../src/model1/aml_config/train-amlcompute.runconfig"
+        runconfig: "src/model1/aml_config/train-amlcompute.runconfig"
         type: "RScriptStep"
         name: "train-step"
         script_name: "train.R"
         allow_reuse: False
-        source_directory: "../src/model1/"
+        source_directory: "src/model1/"

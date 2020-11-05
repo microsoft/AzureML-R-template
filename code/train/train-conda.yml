@@ -1,0 +1,9 @@
+name: train_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.6.2
+  - pip:
+    # Azure Machine Learning specific dependencies (do not change!)
+    - azureml-defaults

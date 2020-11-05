@@ -1,5 +1,5 @@
 # Actions train a model on Azure Machine Learning
-# Test 1
+# Test 2
 name: aml-train-register-workflow 
 on:
   push:

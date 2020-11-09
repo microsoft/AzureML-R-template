@@ -58,23 +58,28 @@ Please follow [this link](https://help.github.com/en/actions/configuring-and-man
 ### 3. Setup and Define Triggers
 
 #### Events that trigger workflow
-Github workflows are triggered based on events specified inside workflows. These events can be from inside the github repo like a push commit or can be from outside like a webhook([repository-dispatch](https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#repository_dispatch)).
+Github workflows are triggered based on events specified inside workflows. These events can be from inside the github repo like a push commit or can be from outside like a webhook ([repository-dispatch](https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#repository_dispatch)).
 Refer [link](https://docs.github.com/en/actions/reference/events-that-trigger-workflows) for more details on configuring your workflows to run on specific events.
 
 #### Define Trigger
-We have created sample workflow file [train_register](/.github/workflows/train_register.yml) that trains a model on a remote AML Compute Cluster and registers the model in the AML Workspace upon training completion.  This is done using [the train-amlcompute.runconfig](/.src/model1/aml_config/train-amlcompute.runconfig)
+We have created a sample workflow file [train_register](/.github/workflows/train_register.yml) that trains a model on a remote AML Compute Cluster and registers the model in the AML Workspace upon training completion. 
+
+#### Workflow Definition
+
+- Check Out Repository
+  - Checks out your repository so your job can access it
+- Connect Azure Machine Learning Workspace
+  - Connects to AML workspace as defined in [workspace.json](/.cloud/.azure/workspace.json)
+- Create Azure Machine Learning Compute Target
+  - Creates AML Compute Cluster if not already created based on definition of [compute.json](/.cloud/.azure/compute.json)
+- Submit Training Run
+  - Submits AML experiment to train a model based on definition of [run.json](/.cloud/.azure/run.json)
+- Register Model
+  - Registers model from training run based on definition of [model.json](/.cloud/.azure/registermodel.json)
 
 ### 4. Testing the trigger
 
 You need to update this workflow file [train_register.yml](/.github/workflows/train_register.yml) by doing a commit to this file.
-
-### 5. Review 
-
-Any change to training file [train.py](https://github.com/Azure-Samples/mlops-enterprise-template/blob/main/code/train/train.py) will trigger workflow [train_model.yml](/.github/workflows/train_model.yml) and train the model using updated training code.
-
-After training completes [deploy_model.yml](/.github/workflows/deploy_model.yml ) will automatically be triggered and deploy model to the AKS instance.
-
-The log outputs of this workflow [deploy_model.yml](/.github/workflows/deploy_model.yml ) run will provide URLs for you to get the service endpoints deployed on kubernetes. 
 
 # Documentation
 
@@ -84,9 +89,10 @@ The log outputs of this workflow [deploy_model.yml](/.github/workflows/deploy_mo
 | ----------------------------- | ------------------------------------------ |
 | `src/model1`                  | Sample data science source code that will be submitted to Azure Machine Learning to train and deploy machine learning models. |
 | `src/model1/train.R`          | Training script that gets executed on a cluster on Azure Machine Learning. |
-| `src/model1/aml_config/train_conda.yml`  | Conda environment specification, which describes the dependencies of `train.R`. These packages will be installed inside a Docker image on the Azure Machine Learning compute cluster, when executing your `train.py`. |
+| `src/model1/aml_config/train_conda.yml`  | Conda environment specification, which describes the dependencies of `train.R`. These packages will be installed inside a Docker image on the Azure Machine Learning compute cluster. |
 | `src/model1/aml_config/train-amlcompute.runconfig`   | YAML file, which describes the execution of your training run on Azure Machine Learning. |
 | `.cloud/.azure`               | Configuration files for the Azure Machine Learning GitHub Actions. Please visit the repositories of the respective actions and read the documentation for more details. |
+| `.cloud/.azure/`               | Configuration files for the Azure Machine Learning GitHub Actions. Please visit the repositories of the respective actions and read the documentation for more details. |
 | `.github/workflows`           | Folder for GitHub workflows. The `train_register.yml` sample workflow shows you how your can use the Azure Machine Learning GitHub Actions to automate the machine learning process. |
 | `CODE_OF_CONDUCT.md`          | Microsoft Open Source Code of Conduct.     |
 | `LICENSE`                     | The license for the sample.                |

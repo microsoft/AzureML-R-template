@@ -14,28 +14,28 @@ jobs:
       uses: actions/checkout@v2
         
     # Connect or Create the Azure Machine Learning Workspace
-    - name: Connect/Create Azure Machine Learning Workspace
+    - name: Connect Azure Machine Learning Workspace
       id: aml_workspace
       uses: Azure/aml-workspace@v1
       with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
     
     # Connect or Create a Compute Target in Azure Machine Learning
-    - name: Connect/Create Azure Machine Learning Compute Target
+    - name: Create Azure Machine Learning Compute Target
       id: aml_compute_training
       uses: Azure/aml-compute@v1
       with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
     
     # Submit a training run to the Azure Machine Learning
-    - name: Submit training run
+    - name: Submit Training Run
       id: aml_run
       uses: Azure/aml-run@v1
       with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
     # Register model in Azure Machine Learning model registry
-    - name: Register model
+    - name: Register Model
       id: aml_registermodel
       uses: Azure/aml-registermodel@v1
       with:

@@ -1,5 +1,5 @@
 script: train.R
-arguments: [--input_data, $AZUREML_DATAREFERENCE_<DATA REFERENCE NAME>]
+arguments: [--input_data, $AZUREML_DATAREFERENCE_trainingdata]
 target: cpu-cluster
 framework: R
 communicator: None
@@ -10,18 +10,18 @@ environment:
   python:
     userManagedDependencies: true
     interpreterPath: python
-    condaDependenciesFile: aml_config/train-conda.yml
+    condaDependenciesFile: train-conda.yml
   docker:
     enabled: true
-    baseImage: <IMAGE_NAME>:<TAG>
+    baseImage: azuremlb384076d.azurecr.io/azureml/r-image:latest
     arguments: []
   r:
     userManaged: true
 mpi:
     processCountPerNode: 1
 dataReferences:
-  <DATA REFERENCE NAME>:
-    dataStoreName: <DATASTORE NAME>
-    pathOnDataStore: <PATH TO DATA ON DATASTORE>
+  trainingdata:
+    dataStoreName: datalake_diabetes
+    pathOnDataStore: /diabetes-data
     mode: mount
     overwrite: false

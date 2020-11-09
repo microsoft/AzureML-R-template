@@ -1,9 +1,9 @@
 # ML Ops with GitHub Actions and AML
 
 <p align="center">
-  <img src="04-automation/images/aml.png" height="80"/>
+  <img src="images/aml.png" height="80"/>
   <img src="https://i.ya-webdesign.com/images/a-plus-png-2.png" alt="plus" height="40"/>
-  <img src="04-automation/images/actions.png" alt="Azure Machine Learning + Actions" height="80"/>
+  <img src="images/actions.png" alt="Azure Machine Learning + Actions" height="80"/>
 </p>
 
 This example shows how to perform DevOps for Machine learning applications using [Azure Machine Learning](https://docs.microsoft.com/en-us/azure/machine-learning/) powered [GitHub Actions](). The example is based off of the [mlops-enterprise-template repo](https://github.com/Azure-Samples/mlops-enterprise-template).  Using this example template you will be able to setup your train and deployment infra, train the model and deploy them in an automated manner. 
@@ -48,7 +48,7 @@ This will generate the following JSON output:
 Add this JSON output as [a secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets) with the name `AZURE_CREDENTIALS` in your GitHub repository:
 
 <p align="center">
-  <img src="04-automation/images/secrets.png" alt="GitHub Template repository" width="700"/>
+  <img src="images/secrets.png" alt="GitHub Template repository" width="700"/>
 </p>
 
 To do so, click on the Settings tab in your repository, then click on Secrets and finally add the new secret with the name `AZURE_CREDENTIALS` to your repository.

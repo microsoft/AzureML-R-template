@@ -31,7 +31,7 @@ This repo follows a pre-defined structure for storing your model code, pipelines
 | `sample-data\` | Some small sample data used for the template example |
 | `src\` | Model(s) code and other required code assets |
 | `src\model1` | A full end-to-end example for docker environment, training, real-time and batch inferencing and automation |
-| `pipelines-py\` | A set of Python-based ML pipelines |
+| `pipelines\` | Using AML pipelines with R |
 
 ## Authors
 

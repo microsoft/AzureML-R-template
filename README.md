@@ -1,7 +1,5 @@
 # Azure Machine Learning R Acceleration Template
 
-# Azure Machine Learning Acceleration Template
-
 <!-- 
 Guidelines on README format: https://review.docs.microsoft.com/help/onboard/admin/samples/concepts/readme-template?branch=master
 
@@ -12,7 +10,7 @@ Taxonomies for products and languages: https://review.docs.microsoft.com/new-hop
 
 <img src="instructions/media/aml_logo.png" width="300px" />
 
-This repo features an Azure Machine Learning (AML) Acceleration template which enables you to quickly onboard your existing R code to AML. The template is a fork of the Python-based [AML Acceleration Template](https://github.com/microsoft/aml-acceleration-template) adapted to enable smooth migration of your local R code from training through production into the Azure Cloud. 
+This repo features an Azure Machine Learning (AML) Acceleration template which enables you to quickly onboard your existing R code to AML. The template is a fork of the Python-based [AML Acceleration Template](https://github.com/microsoft/aml-acceleration-template) adapted to enable smooth migration of your local R code from training through deployment into the Azure Cloud. 
 
 If you want to follow a guided approach to use this repo, start with [migrating your first workload to AML](instructions/README.md) and walk through the individual sections.
 

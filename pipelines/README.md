@@ -4,25 +4,6 @@ ML Pipelines in AML allows you to group multiple parts of your Machine Learning 
 
 AML Pipelines cannot be authored directly from R code. In this repo, the pipeline will be authored using the AML Python SDK. Pipelines calling R code can also be authored using the Visual Designer but this approach will not be covered here as it offers less environment flexibility and may require more extensive code refactoring.
 
-### R Environment
-
-If not already completed, edit, build, and push a Docker image for the R environment the pipeline will use for training. 
-
-1. Open a terminal and navigate to the [`src/model1/docker/base`](../src/model1/docker/base/) folder. Edit `Dockerfile` to add commands to install any additional R packages or other software required by your training code.
-2. Login to your Azure subscription:  
-    `$ az login`
-3. Query the container registry name for your AML Workspace:  
-    `$ az ml workspace show -w <your workspace> -g <resourcegroup> --query containerRegistry`  
-    The information returned will be similar to:  
-    `/subscriptions/<subscription_id>/resourceGroups/<resource_group>/providers/Microsoft.ContainerRegistry/registries/<registry_name>`  
-4. Authenticate to the Azure Container Registry using the registry name from the end of the previous result:  
-    `$ az acr login --name <registry_name>`
-5. Enter the following command to upload and build your image:  
-    `az acr build --image <image_name>:<tag> --registry <registry_name> --file Dockerfile .`
-6. When the build is completed, navigate back to the pipeline directory and edit `pipeline.runconfig` to use your published Docker image as the baseImage in the docker section:  
-    `baseImage: <registry_name>.azurecr.io/<repository>:<tag>`
-
-
 ## Build and Publish the Training Pipeline
 
 From within the directory of each pipeline, you can run it via:

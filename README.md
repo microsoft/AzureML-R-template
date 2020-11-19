@@ -8,18 +8,28 @@ Guidance on onboarding samples to docs.microsoft.com/samples: https://review.doc
 Taxonomies for products and languages: https://review.docs.microsoft.com/new-hope/information-architecture/metadata/taxonomies?branch=master
 -->
 
-This repo features an Azure Machine Learning (AML) Acceleration template which enables you to quickly onboard your existing R code to AML. The template enables a smooth ML development process between your local machine and the Azure Cloud. Furthermore, it includes simple examples for running your model's training and batch inferencing as [Machine Learning Pipelines](https://docs.microsoft.com/en-us/azure/machine-learning/concept-ml-pipelines) for automation.
+<img src="instructions/media/aml_logo.png" width="300px" />
+
+This repo features an Azure Machine Learning (AML) Acceleration template which enables you to quickly onboard your existing R code to AML. The template is a fork of the Python-based [AML Acceleration Template](https://github.com/microsoft/aml-acceleration-template) adapted to enable smooth migration of your local R code from training through deployment into the Azure Cloud. 
+
+If you want to follow a guided approach to use this repo, start with [migrating your first workload to AML](instructions/README.md) and walk through the individual sections.
 
 ## Getting Started
 
-We recommend you to follow the step-by-step path below, starting with Prerequisites and environment setup then progress through local/AmlCompute trainin, and automation:
+We recommend you to start with [migrating your first workload to AML](instructions/README.md) as it covers all prerequisites and outlines a simple and proven step-by-step approach.
 
-1. [Prerequisites](00-getting-started/README.md) - Setup of initial development environment and R compute environment.
-2. [Moving training to Azure Machine Learning](01-training/README.md) - Moving your training code to AML
-3. [Moving inferencing to Azure Machine Learning](02-inferencing/README.md) - Moving your prediction code to AML
-4. [Automating training and scoring using ML Pipelines](03-pipelines/README.md) - Running training and prediction code as a ML Pipeline
-5. [Automating ML Pipeline deployment](04-automation/README.md) - Deploying and testing ML Pipelines automatically using CI/CD
+## Contents
 
+This repo follows a pre-defined structure for storing your model code, pipelines, etc.
+
+| File/folder       | Description                                |
+|-------------------|--------------------------------------------|
+| `.github\workflows`| MLOps workflow using GitHub Actions |
+| `instructions\`| A step-by-step guide on how to onboard your first workload to AML |
+| `sample-data\` | Some small sample data used for the template example |
+| `src\` | Model(s) code and other required code assets |
+| `src\model1` | A full end-to-end example for docker environment, training, real-time and batch inferencing and automation |
+| `pipelines\` | Using AML pipelines with R |
 
 ## Authors
 

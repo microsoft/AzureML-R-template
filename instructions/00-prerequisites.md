@@ -100,4 +100,4 @@ Some parts might already be fulfilled (editor, SSH keys), hence feel free to ski
     * Follow the instructions to mount the share under Windows, Linux or macOS
     ![alt text](media/00-connect.png "Connect details")
 
-Now that you have your environment up and running, we can move to the [next section](01-training.md) and migrate your training code to Azure.
+Now that you have your environment up and running, we can move to the [next section](01-Renvironment.md) and create an R environment.

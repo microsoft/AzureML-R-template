@@ -1,0 +1,27 @@
+script: train.R
+arguments: [--input_data, $AZUREML_DATAREFERENCE_diabetes-training-data]
+target: cpu-cluster
+framework: R
+communicator: None
+nodeCount: 1
+environment:
+  environmentVariables:
+    EXAMPLE_ENV_VAR: EXAMPLE_VALUE
+  python:
+    userManagedDependencies: true
+    interpreterPath: python
+    condaDependenciesFile: aml_config/train-conda.yml
+  docker:
+    enabled: true
+    baseImage: azuremlXXXXXXXX.azurecr.io/azureml/r-image:latest
+    arguments: []
+  r:
+    userManaged: true
+mpi:
+    processCountPerNode: 1
+dataReferences:
+  diabetes-training-data:
+    dataStoreName: workspaceblobstore
+    pathOnDataStore: training_data/
+    mode: mount
+    overwrite: false

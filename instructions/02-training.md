@@ -78,7 +78,7 @@ This is the target architecture we'll use for this section:
 This is the target architecture we'll use for this section:
 ![alt text](media/01-remote_training.png "Remote Training Architecture")
 
-1. Create Dataset in AML with data
+1. Upload data to default AML datastore
     * *Option 1* - Using Azure Storage Explorer:
         * Install [Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/)
         * Navigate into the correct subscription, then select the `Storage Account` that belongs to the AML workspace (should be named similar to the workspace with some random number), then select `Blob Containers` and find the container named `azureml-blobstore-...`
@@ -94,13 +94,8 @@ This is the target architecture we'll use for this section:
         az storage blob upload -f <file_name.csv> -c <container-name> -n file_name.csv --account-name <storage-account-name>
         ```
         * In this case you need to register the container as new Datastore in AML, then create the dataset afterwards
-    * In the Azure ML UI, register this folder as a new `File Dataset` under `Datasets`, click `+ Create dataset`, then select `From datastore` and follow through the dialog
-    ![alt text](media/01-create_dataset.png "Create new dataset")
-    * Lastly select the default datastore where we uploaded the data and select the path on the datastore, e.g., `training_data`
-    ![alt text](media/01-define_dataset.png "Define the new dataset")
-    
 
-1. Provision Compute cluster in Azure Machine Learning
+2. Provision Compute cluster in Azure Machine Learning
     * Open [Azure Machine Learning Studio UI](https://ml.azure.com)
     * Navigate to `Compute --> Compute clusters`
     * Select `+ New`
@@ -112,32 +107,24 @@ This is the target architecture we'll use for this section:
     * Hit `Create`
     ![alt text](media/01-create_cluster.png "Create Compute Cluster")
 
-1. Adapt AML Compute runconfig
+3. Adapt AML Compute runconfig
     * Open [`aml_config/train-amlcompute.runconfig`](../src/model1/aml_config/train-amlcompute.runconfig) in your editor
     * Update the `script` parameter to point to your entry script
-    * Update the `arguments` parameter and point your data path parameter to `/data` and adapt other parameters
+    * Update the following parameters of the `dataReferences` section:
+        * Set a data reference name `<DATA REFERENCE NAME>` on line 23 that will also be used on line 2
+        * Set the `dataStoreName` parameter to the AML datastore where your training data exists
+        * Set the `pathOnDataStore` parameter to the path in the datastore where your training data exists
+    * Update the `arguments` parameter and set `<DATA REFERENCE NAME>` to the same value provided for `<DATA REFERENCE NAME>` on line 23
     * Update the `target` section and point it to the name of your newly created Compute cluster (default `cpu-cluster`)
-    * Find out your dataset's `id` using the command line:
-    ```
-    az ml dataset list
-    ```
-    * Under the `data` section, replace `id` with your dataset's id:
-    ```yaml
-    data:
-        mydataset:
-            dataLocation:
-            dataset:
-                id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx # replace with your dataset's id
-            ...
-            pathOnCompute: /data # Where your data is mounted to
+    * Update the `baseImage` parameter in the `docker` section to the image name and tag created in [01-Renvironment](01-Renvironment.md)
+
+    ![alt text](media/02-runconfig_sample.png "Sample runconfig")
+
     ```
     * If you want to use a GPU-based instance, you'll need to update the base image to include the `cuda` drivers, e.g.:
     ```
-    baseImage: mcr.microsoft.com/azureml/base-gpu:openmpi3.1.2-cuda10.1-cudnn7-ubuntu18.04
-    ```
-    * All full list of pre-curated Docker images can be found [here](https://github.com/Azure/AzureML-Containers#featured-tags) - make sure your `cuda` version matches your library version
 
-1. Submit the training against the AML Compute Cluster
+4. Submit the training against the AML Compute Cluster
     * Submit the `train-amlcompute.runconfig` against the AML Compute Cluster
     ```
     az ml run submit-script -c train-amlcompute -e aml-poc-compute -t run.json
@@ -155,4 +142,4 @@ This is the target architecture we'll use for this section:
     ```
     * **Details:** Here `-n` stands for `--name`, under which the model will be registered. `--asset-path` points to the model's file location within the run itself (see `Outputs + logs` tab in UI). Lastly, `-f` stands for `--run-metadata-file` which is used to load the file created prior for referencing the run from which we want to register the model from.
 
-Great, you have now trained your Machine Learning on Azure using the power of the cloud. Let's move to the [next section](02-inferencing.md) where we look into moving the inferencing code to Azure.
+Great, you have now trained your Machine Learning on Azure using the power of the cloud. Let's move to the [next section](03-inferencing.md) where we look into moving the inferencing code to Azure.

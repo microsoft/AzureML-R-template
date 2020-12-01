@@ -113,6 +113,7 @@ This is the target architecture we'll use for this section:
     * Update the `script` parameter to point to your entry script
     * Update the following parameters of the `dataReferences` section:
         * Set a data reference name `<DATA REFERENCE NAME>` on line 23 that will also be used on line 2
+        * **Note: do not use underscores or dashes in your** `<DATA REFERENCE NAME>`
         * Set the `dataStoreName` parameter to the AML datastore where your training data exists
         * Set the `pathOnDataStore` parameter to the path in the datastore where your training data exists
     * Update the `arguments` parameter and set `<DATA REFERENCE NAME>` to the same value provided for `<DATA REFERENCE NAME>` on line 23
@@ -138,7 +139,7 @@ This is the target architecture we'll use for this section:
 1. Register model with metadata from your previous training run
     * Register model using the metadata file `run.json`, which is referencing the last training run:
     ```
-    az ml model register -n demo-model --asset-path outputs/model.pkl -f run.json \
+    az ml model register -n demo-model --asset-path outputs/model.rds -f run.json \
       --tag key1=value1 --tag key2=value2 --property prop1=value1 --property prop2=value2
     ```
     * **Details:** Here `-n` stands for `--name`, under which the model will be registered. `--asset-path` points to the model's file location within the run itself (see `Outputs + logs` tab in UI). Lastly, `-f` stands for `--run-metadata-file` which is used to load the file created prior for referencing the run from which we want to register the model from.

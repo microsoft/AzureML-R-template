@@ -1,5 +1,5 @@
 script: train.R
-arguments: [--input_data, $AZUREML_DATAREFERENCE_diabetes-training-data]
+arguments: [--input_data, $AZUREML_DATAREFERENCE_trainingData]
 target: cpu-cluster
 framework: R
 communicator: None
@@ -20,8 +20,8 @@ environment:
 mpi:
     processCountPerNode: 1
 dataReferences:
-  diabetes-training-data:
+  trainingData:
     dataStoreName: workspaceblobstore
-    pathOnDataStore: training_data/
+    pathOnDataStore: diabetes-data/
     mode: mount
     overwrite: false

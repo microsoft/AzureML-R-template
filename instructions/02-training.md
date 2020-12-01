@@ -107,6 +107,7 @@ This is the target architecture we'll use for this section:
     * Hit `Create`
     ![alt text](media/01-create_cluster.png "Create Compute Cluster")
 
+
 3. Adapt AML Compute runconfig
     * Open [`aml_config/train-amlcompute.runconfig`](../src/model1/aml_config/train-amlcompute.runconfig) in your editor
     * Update the `script` parameter to point to your entry script

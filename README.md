@@ -8,7 +8,11 @@ Guidance on onboarding samples to docs.microsoft.com/samples: https://review.doc
 Taxonomies for products and languages: https://review.docs.microsoft.com/new-hope/information-architecture/metadata/taxonomies?branch=master
 -->
 
-<img src="instructions/media/aml_logo.png" width="300px" />
+<p align="center">
+  <img src="instructions/media/aml_logo.png" width="250px" />
+  <img src="https://i.ya-webdesign.com/images/a-plus-png-2.png" alt="plus" height="60"/>
+  <img src="https://www.r-project.org/logo/Rlogo.png" alt="R-Project" width="300px"/>
+</p>
 
 This repo features an Azure Machine Learning (AML) Acceleration template which enables you to quickly onboard your existing R code to AML. The template is a fork of the Python-based [AML Acceleration Template](https://github.com/microsoft/aml-acceleration-template) adapted to enable smooth migration of your local R code from training through deployment into the Azure Cloud. 
 

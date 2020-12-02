@@ -9,9 +9,9 @@ Taxonomies for products and languages: https://review.docs.microsoft.com/new-hop
 -->
 
 <p align="center">
-  <img src="instructions/media/aml_logo.png" width="250px" />
-  <img src="https://i.ya-webdesign.com/images/a-plus-png-2.png" alt="plus" height="60"/>
-  <img src="https://www.r-project.org/logo/Rlogo.png" alt="R-Project" width="300px"/>
+  <img src="instructions/media/aml_logo.png" width="150px" />
+  <img src="https://i.ya-webdesign.com/images/a-plus-png-2.png" alt="plus" height="75"/>
+  <img src="https://www.r-project.org/logo/Rlogo.png" alt="R-Project" width="180px"/>
 </p>
 
 This repo features an Azure Machine Learning (AML) Acceleration template which enables you to quickly onboard your existing R code to AML. The template is a fork of the Python-based [AML Acceleration Template](https://github.com/microsoft/aml-acceleration-template) adapted to enable smooth migration of your local R code from training through deployment into the Azure Cloud. 
@@ -28,13 +28,13 @@ This repo follows a pre-defined structure for storing your model code, pipelines
 
 | File/folder       | Description                                |
 |-------------------|--------------------------------------------|
-| `.cloud\.azure` | Configuration files for the Azure Machine Learning GitHub Actions used for MLOps |
-| `.github\workflows`| Folder for GitHub workflows used for MLOps |
-| `instructions\`| A step-by-step guide on how to onboard your first workload to AML |
-| `pipelines\` | Using AML pipelines with R |
-| `sample-data\` | Some small sample data used for the template example |
-| `src\` | Model(s) code and other required code assets |
-| `src\model1` | A full end-to-end example for docker environment, training, real-time and batch inferencing and automation |
+| `.cloud/.azure` | Configuration files for the Azure Machine Learning GitHub Actions used for MLOps |
+| `.github/workflows`| Folder for GitHub workflows used for MLOps |
+| `instructions/`| A step-by-step guide on how to onboard your first workload to AML |
+| `pipelines/` | Using AML pipelines with R |
+| `sample-data/` | Some small sample data used for the template example |
+| `src/` | Model(s) code and other required code assets |
+| `src/model1` | A full end-to-end example for docker environment, training, real-time and batch inferencing and automation |
 
 
 ## Authors

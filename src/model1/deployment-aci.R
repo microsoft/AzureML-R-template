@@ -1,15 +1,23 @@
-# Import SDK and print version numbers
+# Import SDK
 library(azuremlsdk)
 
 # Authenticate to AML workspace
-ws <- load_workspace_from_config()
+# ws <- load_workspace_from_config()
+run <- get_current_run()
+exp <- run$experiment
+ws <- exp$workspace
 
-# Get the registered model
-model <- get_model(workspace = ws,
-                   name = 'diabetes_model')
+# Create and register environment from custom Docker image
+r_env <- r_environment("R-env",
+                       #custom_docker_image = "<repository_name>.azurecr.io/<image_name>:<tag>")
+                       custom_docker_image = "azuremlb384076d.azurecr.io/azureml/r-image:latest")
 
-# Define inference environment
-r_env <- r_environment(name = "basic_env")
+# model <- get_model(workspace = ws,
+#                    name = 'demo-model')
+
+model <- register_model(ws, 
+                        model_path = "./model.rds", 
+                        model_name = "demo-model")                              
 
 # Define inference config
 inference_config <- inference_config(
@@ -18,14 +26,13 @@ inference_config <- inference_config(
   environment = r_env)
 
 # Define ACI config
-aci_config <- aci_webservice_deployment_config(cpu_cores = 1, memory_gb = 2)
-print(aci_config)
+aci_config <- aci_webservice_deployment_config(cpu_cores = 1, memory_gb = 2, auth_enabled = TRUE)
 
-
+print("Begin deploy to ACI")       
 
 # Deploy to ACI
 aci_service <- deploy_model(ws,
-                            'diabetes-pred',
+                            'diabetes-pred2',
                             list(model),
                             inference_config,
                             aci_config)

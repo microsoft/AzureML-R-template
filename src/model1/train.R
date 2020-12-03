@@ -12,15 +12,10 @@ run <- get_current_run()
 
 options <- list(
   make_option(c("--input_data"))
-  #make_option(c("--output_train"))
 )
 
 opt_parser <- OptionParser(option_list = options)
 opt <- parse_args(opt_parser)
-#paste(opt$input_data)
-
-#print("Listing input data files...")
-#list.files(opt$input_data)
 
 # Read data files and drop PatientID column
 data_files <- list(file.path(opt$input_data, "diabetes.csv"),

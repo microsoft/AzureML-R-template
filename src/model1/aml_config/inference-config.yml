@@ -1,4 +1,0 @@
-entryScript: _generated_score.py
-sourceDirectory: ./
-runtime: python
-conda_file: aml_config/inference-conda.yml

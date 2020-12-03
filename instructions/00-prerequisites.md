@@ -1,12 +1,22 @@
 # Prerequisites
 
-This tutorial assumes that you have an Azure Machine Learning service provisioned. If you do not have one yet, please follow [this tutorial](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace#create-a-workspace). This repo uses the following defaults:
+This tutorial assumes that you have an Azure Machine Learning service provisioned. If you do not have one yet, please follow [this tutorial](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace#create-a-workspace). This repo uses the following values:
 
-* Workspace name: `aml-demo`
-* Resource group name: `aml-demo`
-* Workspace edition: `Enterprise`
+* **Workspace name:** `Create new` using `aml-demo`
+* **Resource group name:** `aml-demo`
+* **Region:** Accept default region
+* **Storage account:** Accept (new) default
+* **Key vault:** Accept (new) default
+* **Application insights:** Accept (new) default
+* **Container registry:** `Create new` with a unique name
+
+AML will automatically create a Container registry instance for you upon first running a training experiment. For this example, we want to create it at Workspace creation time to hold [R Environment](01-Renvironment.md) images.
+
+See below for an example:
 
 ![alt text](media/00-new_workspace.png "New Workspace")
+
+# Development Environment
 
 Depending on your preference, you can either work directly on your local laptop using Docker (Path 1), or remotely connect to a `Compute Instance` (Path 2). Both paths will work, but depending on your system restrictions (e.g., not full admin rights to your laptop), you might want to use Path 2.
 
@@ -24,7 +34,7 @@ Follow this path if:
 
 Some parts might already be fulfilled (editor, SSH keys), hence feel free to skip those steps.
 
-1. Execute training Python code on local laptop using `python` or startup script to make sure it is working properly
+1. Execute your R code on local laptop using `Rscript` to make sure it is working properly.
 
 1. Install Azure CLI
     * Follow the documentation [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) to install the Azure CLI.
@@ -51,15 +61,13 @@ Follow this path if:
 
 Some parts might already be fulfilled (editor, SSH keys), hence feel free to skip those steps.
 
-1. Execute training Python code on local laptop using `python` or startup script to make sure it is working properly
+1. Execute R code on local laptop using `Rscript` to make sure it is working properly.
 
-1. Setup local editor with remote extension (Visual Studio Code or PyCharm)
-    1. *Option 1* - Install Visual Studio Code with Remote Development extension pack
-        * Install [Visual Studio Code](https://code.visualstudio.com/)
-        * Install [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
-    1. *Option 2* - Use existing PyCharm installation
-        * Install PyCharm (TODO)
-        * Setup Remote development (TODO)
+1. *Optional* Setup local Visual Studio Code with remote extension and R support
+    * Install [Visual Studio Code](https://code.visualstudio.com/) 
+    * Install [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
+    * Install [R support for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=Ikuyadeu.r)
+
 
 1. Generate SSH Key
     * Open Terminal
@@ -69,19 +77,24 @@ Some parts might already be fulfilled (editor, SSH keys), hence feel free to ski
 1. Provision Compute Instance in Azure Machine Learning
     * Open [Azure Machine Learning Studio UI](https://ml.azure.com)
     * Navigate to `Compute --> Compute Instances`
-    * Select `+ New`
-    * Select a `Compute name` (doesn't matter)
-    * Select a `Virtual Machine size`
+    * Select `Create`
+    * Select a `Virtual Machine Type` (CPU is default)
+    * Select a `Virtual Machine size` (e.g. Standard_DS3_v2)
+    * Click Next
+    * Enter a name for the Compute Instance (e.g. aml-demo-ci)
     * Enable `SSH Access`
     * Paste your public key from `~/.ssh/id_rsa.pub` in `SSH public key`
-    * Hit `Create`
+    * Select `Create`
     ![alt text](media/00-create_ci.png "Create CI")
     * Wait until instance has been provisioned
-    * Select `SSH` under Application URI and copy the `Login using local account` command
-    ![alt text](media/00-ssh_details.png "SSH Details")
-    [![Create an AML Compute Instance - Click to watch!](https://img.youtube.com/vi/Q54irUdf-_s/0.jpg)](https://youtu.be/Q54irUdf-_s)
 
-1. Connect remotely to the Compute Instance
+1. Connect to RStudio Server on the Compute Instance
+    * On the Compute Instances page, select `RStudio` to start a remote RStudio Server session in your browser. R are preinstalled for you on the Compute Instance. The Azure CLI with ML extension is preinstalled and is usable through the RStudio Terminal window.
+
+1. *Optional* Connect remotely to the Compute Instance using Visual Studio Code
+    * On the Compute Instances page, select `SSH` under Application URI and copy the `Login using local account` command
+    ![alt text](media/00-ssh_details.png "SSH Details")
+
     * Start `Visual Studio Code`
     * Select `Remote Explorer`
     * Click `+ Add new SSH Target`
@@ -89,15 +102,4 @@ Some parts might already be fulfilled (editor, SSH keys), hence feel free to ski
     * Save update to `C:\Users\username\.ssh\config` (Windows) or `~/.ssh/config` (macOS, Linux)
     * Right-click the new `SSH Targets` entry and select `Connect to Host in Current Window`
 
-1. *Optional* - Mount default Fileshare from Azure Machine Learning to local laptop
-    * Open the [Azure Portal](https://portal.azure.com)
-    * Navigate to your Azure Machine Learning's `Resource Group`
-    * Select the Azure Machine Learning's `Storage Account` (named same as the Machine Learning service with some number, e.g., `amldemo12345678`)
-    * Select `File shares`
-    * Search for prefix `code` and select the matching file share
-    ![alt text](media/00-storage_account.png "Storage Account")
-    * Click `Connect`
-    * Follow the instructions to mount the share under Windows, Linux or macOS
-    ![alt text](media/00-connect.png "Connect details")
-
-Now that you have your environment up and running, we can move to the [next section](01-Renvironment.md) and create an R environment.
+Now that you have your development environment up and running, we can move to the [next section](01-Renvironment.md) and create an R environment for AML.

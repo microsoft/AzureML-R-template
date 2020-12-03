@@ -1,15 +1,15 @@
-# Migrating your Machine Learning code to Azure Machine Learning - Best Pratice
+# Migrating your R code to Azure Machine Learning - Best Practice
 
-This tutorial will show an easy and proven way on how to get your existing
+This tutorial will show an easy and proven way to get your existing
 
 * Machine Learning training code
 * Machine Learning prediction/inferencing code
 
-running Azure Machine Learning. Furthermore, it shows how to automate it using ML pipelines and Azure DevOps (or other CI/CD platforms).
+running Azure Machine Learning. Furthermore, it shows how to automate it using ML pipelines and GitHub Actions for MLOps.
 
 ## Guided Approach
 
-You recommend you to follow the proven step-by-step guidelines, which will cover everything from setup, running at scale, and automation:
+We recommend you to follow the proven step-by-step guidelines, which will cover everything from setup, running at scale, and automation:
 
 1. [Prerequisites](00-prerequisites.md) - Setup of initial environemnt
 1. [Creating R environments for Azure Machine Learning](01-Renvironment.md) - Build R environments for training and inferencing

@@ -2,12 +2,11 @@
 library(azuremlsdk)
 
 # Authenticate to AML workspace
-# ws <- load_workspace_from_config()
 run <- get_current_run()
 exp <- run$experiment
 ws <- exp$workspace
 
-# Create and register environment from custom Docker image
+# Create environment from custom Docker image
 r_env <- r_environment("R-env",
                        #custom_docker_image = "<repository_name>.azurecr.io/<image_name>:<tag>")
                        custom_docker_image = "azuremlb384076d.azurecr.io/azureml/r-image:latest")

@@ -1,49 +1,32 @@
 # Inferencing
 
+Now that we've trained a model, in this step we'll walk through the process of deploying and serving the model for real-time inferencing using Azure Container Instances (ACI).
+
+Ideally the deployment would be done using the AML CLI `az ml model deploy` command, however we're still troublehsooting this approach for deploying R models.
+
+Therefore, for the time being we will acheive this by submitting an experiment using a run configuration that will execute on an AML Compute target (the same approach taken for model training in the previous step).
+
+This short-term approach has the following short-comings:
+* Utilization of many AML R SDK functions
+* AML R SDK function `get_model` bug that throws a C Stack Usage error message similar to this [GitHub issue](https://github.com/Azure/azureml-sdk-for-r/issues/404)
+* Due to the previous issue, we need to store the model in Azure Blob Storage or locally in the codebase and use the AML R SDK function `register_model` in order to get the model object for deployment
+
 ## Preparing the real-time inferencing code
 
 1. Adapt conda enviroment for inferencing
     * Copy your dependencies from [`aml_config/train-conda.yml`](../src/model1/aml_config/train-conda.yml) to [`aml_config/inference-conda.yml`](../src/model1/aml_config/inference-conda.yml)
     * If you have different dependencies for inferencing, you can adapt them in [`aml_config/inference-conda.yml`](../src/model1/aml_config/train-conda.yml)
 
-1. Adapt existing `score.py`
-    * Open [`score.py`](../src/model1/score.py) and start updating the `init()` and `run()` methods following the instructions given in the file
+1. Adapt existing `score.R`
+    * Open [`score.R`](../src/model1/score.R) and start updating the `init()` and `run()` as neccessary
     * Updating `init()`:
         * The `init` method is executed once the real-time scoring service is starting up and is usually used to load the model
         * The model file(s) are automatically injected by AML and the location is available in the environment variable `AZUREML_MODEL_DIR`
-        * For more details look at the existing [`score.py`](../src/model1/score.py)
+        * For more details look at the existing [`score.R`](../src/model1/score.R)
     * Updating `run()`:
         * The `run` method is executed whenever a `HTTP POST` request is received by the service
         * The input to the method is usually JSON, which can be processed and then passed into your model
-        * For more details look at the existing [`score.py`](../src/model1/score.py)
-        * If you want to receive binary data, e.g., images, you can try use the following code (full example [here](https://github.com/csiebler/unet-pytorch-azureml/blob/master/model/score.py)):
-        ```python
-        from azureml.contrib.services.aml_request import AMLRequest, rawhttp
-        from azureml.contrib.services.aml_response import AMLResponse
-        ...
-        @rawhttp
-        def run(request):
-            if request.method == 'POST':
-                request_body = request.get_data(False)
-                input_image = Image.open(io.BytesIO(request_body))
-
-                # Do something with the input image
-                response = 42 # create a more meaningful response
-
-                headers = {
-                    'Content-Type': 'image/png' # Set your Content-Type of the response
-                }
-                
-                return AMLResponse(response, 200, headers)
-            if request.method == 'GET':
-                response_body = str.encode("GET is not supported")
-                return AMLResponse(response_body, 405)
-            return AMLResponse("Bad Request", 500)
-        ```
-    * You can test your `score.py` script locally using (make sure the file `outputs/model.pkl` exists):
-    ```
-    pytest tests/
-    ```
+        * For more details look at the existing [`score.R`](../src/model1/score.R)
 
 ## Running real-time inferecing on Azure
 

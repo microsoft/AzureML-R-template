@@ -14,7 +14,12 @@ Taxonomies for products and languages: https://review.docs.microsoft.com/new-hop
   <img src="https://www.r-project.org/logo/Rlogo.png" alt="R-Project" width="180px"/>
 </p>
 
-This repo features an Azure Machine Learning (AML) Acceleration template which enables you to quickly onboard your existing R code to AML. The template is a fork of the Python-based [AML Acceleration Template](https://github.com/microsoft/aml-acceleration-template) adapted to enable smooth migration of your local R code from training through deployment into the Azure Cloud. 
+This repo features an Azure Machine Learning (AML) Acceleration template which enables you to quickly onboard your existing R code to AML.
+
+While there is an [Azure Machine Learning SDK for R](https://azure.github.io/azureml-sdk-for-r/), the SDK is in preview status with some features that are experimental. This template aims to minimize the dependency on the R SDK by using supported AzureML CLI and YAML interfaces where possible.
+
+
+The template is a fork of the Python-based [AML Acceleration Template](https://github.com/microsoft/aml-acceleration-template) adapted to enable smooth migration of your local R code into the Azure Cloud. 
 
 If you want to follow a guided approach to use this repo, start with [migrating your first workload to AML](instructions/README.md) and walk through the individual sections.
 
@@ -34,7 +39,7 @@ This repo follows a pre-defined structure for storing your model code, pipelines
 | `pipelines/` | Using AML pipelines with R |
 | `sample-data/` | Some small sample data used for the template example |
 | `src/` | Model(s) code and other required code assets |
-| `src/model1` | A full end-to-end example for docker environment, training, real-time and batch inferencing and automation |
+| `src/model1` | An example showing docker environment, remote training, and automation for R code in AML |
 
 
 ## Authors

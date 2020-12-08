@@ -6,7 +6,7 @@
   <img src="media/actions.png" alt="Azure Machine Learning + Actions" height="80"/>
 </p>
 
-This example shows how to perform DevOps for Machine learning applications using [Azure Machine Learning](https://docs.microsoft.com/en-us/azure/machine-learning/) powered [GitHub Actions](). The example is based off of the [mlops-enterprise-template repo](https://github.com/Azure-Samples/mlops-enterprise-template).  Using this example template you will be able to setup your train and deployment infra, train the model and deploy them in an automated manner. 
+This example shows how to perform DevOps for Machine learning applications using [Azure Machine Learning](https://docs.microsoft.com/en-us/azure/machine-learning/) powered [GitHub Actions](). The example is based off of the [mlops-enterprise-template repo](https://github.com/Azure-Samples/mlops-enterprise-template).  Using this example template you will be able to setup your train and deployment infra, and train and register the model and in an automated manner. 
 
 # Getting started
 
@@ -92,7 +92,6 @@ You need to update this workflow file [train_register.yml](/.github/workflows/tr
 | `src/model1/aml_config/train_conda.yml`  | Conda environment specification, which describes the dependencies of `train.R`. These packages will be installed inside a Docker image on the Azure Machine Learning compute cluster. |
 | `src/model1/aml_config/train-amlcompute.runconfig`   | YAML file, which describes the execution of your training run on Azure Machine Learning. |
 | `.cloud/.azure`               | Configuration files for the Azure Machine Learning GitHub Actions. Please visit the repositories of the respective actions and read the documentation for more details. |
-| `.cloud/.azure/`               | Configuration files for the Azure Machine Learning GitHub Actions. Please visit the repositories of the respective actions and read the documentation for more details. |
 | `.github/workflows`           | Folder for GitHub workflows. The `train_register.yml` sample workflow shows you how your can use the Azure Machine Learning GitHub Actions to automate the machine learning process. |
 | `CODE_OF_CONDUCT.md`          | Microsoft Open Source Code of Conduct.     |
 | `LICENSE`                     | The license for the sample.                |

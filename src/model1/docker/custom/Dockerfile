@@ -19,22 +19,19 @@ RUN apt-get update \
 	    && rm -rf /var/lib/apt/lists/* && \
         rm -rf /var/lib/apt/lists/*
 
-# Set up miniconda environment for successful reticulate configuration
+# Set up miniconda environment for reticulate configuration
+# and install and configure R AzureML SDK
 RUN ln -s /opt/miniconda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /opt/miniconda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
 
-# Install additional R packages here
-#RUN R -e "install.packages(c('tidyverse', 'caret', 'e1071'), repos = 'https://cloud.r-project.org/')"
-
-# Install and configure R AzureML SDK
 ENV TAR="/bin/tar"
-RUN R -e "install.packages(c('remotes', 'reticulate', 'optparse'), repos = 'https://cloud.r-project.org/')" && \
+RUN R -e "install.packages(c('remotes', 'reticulate'), repos = 'https://cloud.r-project.org/')" && \
     R -e "remotes::install_github('https://github.com/Azure/azureml-sdk-for-r')" && \
     R -e "library(azuremlsdk); install_azureml()" && \
     echo "Sys.setenv(RETICULATE_PYTHON='/opt/miniconda/envs/r-reticulate/bin/python3')" >> ~/.Rprofile
 
-    ## Install common Linux OS prerequisites for popular R packages
+## Install common Linux OS prerequisites for popular R packages
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libssl-dev \
@@ -48,3 +45,8 @@ RUN apt-get update -qq && \
     libbz2-dev \
     zlib1g-dev
 
+# Install additional R packages.
+# Note that optparse should always be installed to support
+# argument passing to your R code in AML.
+RUN R -e "install.packages(c('optparse'), repos = 'https://cloud.r-project.org/')"
+RUN R -e "install.packages(c('e1071'), repos = 'https://cloud.r-project.org/')"

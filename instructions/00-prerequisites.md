@@ -1,5 +1,7 @@
 # Prerequisites
 
+## Create Azure Machine Learning Workspace
+
 This tutorial assumes that you have an Azure Machine Learning service provisioned. If you do not have one yet, please follow [this tutorial](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-manage-workspace#create-a-workspace). This repo uses the following values:
 
 * **Workspace name:** `Create new` using `aml-demo`
@@ -16,13 +18,13 @@ See below for an example:
 
 ![alt text](media/00-new_workspace.png "New Workspace")
 
-# Development Environment
+## Create Development Environment
 
 Depending on your preference, you can either work directly on your local laptop using Docker (Path 1), or remotely connect to a `Compute Instance` (Path 2). Both paths will work, but depending on your system restrictions (e.g., not full admin rights to your laptop), you might want to use Path 2.
 
 Both paths cover how to leverage Azure Machine Learning for performing demanding, long-running training and batch-scoring jobs in the cloud.
 
-## Path 1 - Using your Local Laptop
+### Path 1 - Using your Local Laptop
 
 Follow this path if:
 
@@ -51,7 +53,7 @@ Some parts might already be fulfilled (editor, SSH keys), hence feel free to ski
     az extension add -n azure-cli-ml
     ```
 
-## Path 2 - Using a Compute Instance
+### Path 2 - Using a Compute Instance
 
 Follow this path if:
 
@@ -101,5 +103,22 @@ Some parts might already be fulfilled (editor, SSH keys), hence feel free to ski
     * Paste copied command `ssh azureuser@*.*.*.* -p *`
     * Save update to `C:\Users\username\.ssh\config` (Windows) or `~/.ssh/config` (macOS, Linux)
     * Right-click the new `SSH Targets` entry and select `Connect to Host in Current Window`
+
+## Clone This Template To Use With Your Code
+
+1. Create a new Git repository from this repo and open it
+    * Open [this template repo](https://github.com/microsoft/aml-acceleration-template) in a new browser tab and click `Use this template` and create a new repo from it
+    ![alt text](media/01-create_new_repo.png "Create new Git Repo")
+    * In RStudio or vscode, open a `Terminal`
+    * Clone your newly created repo:
+    ```
+        git clone <URL to your repo>
+    ```
+
+1. Copy your Machine Learning code into the repository
+    * Copy your existing Machine Learning code to the [`src/model1/`](../src/model1/) directory
+    * If you already have a `train.py` or other conflicting filenames, just rename the existing examples for later use as reference
+
+    * However, be aware to follow the `train.py` outline with parameters for inputting the source for data path
 
 Now that you have your development environment up and running, we can move to the [next section](01-Renvironment.md) and create an R environment for AML.

@@ -1,47 +1,22 @@
 # Training
 
-## Preparation steps
 
-1. Create a new Git repository from this repo and open it
-    * Open [this template repo](https://github.com/microsoft/aml-acceleration-template) in a new browser tab and click `Use this template` and create a new repo from it
-    ![alt text](media/01-create_new_repo.png "Create new Git Repo")
-    * In vscode, open `Terminal` by selecting `View -> Terminal` to open the terminal
-    * Clone your newly created repo:
-    ```
-        git clone <URL to your repo>
-    ```
-
-1. Copy your Machine Learning code into the repository
-    * Copy your existing Machine Learning code to the [`src/model1/`](../src/model1/) directory
-    * If you already have a `train.py` or `score.py`, just rename the existing examples for later use as reference
-    * If you are converting an existing `ipynb` notebook, you can easily convert it to a python script using these commands:
-        ```
-        pip install nbconvert
-        jupyter nbconvert --to script training_script.ipynb 
-        ```
-    * However, be aware to follow the `train.py` outline with parameters for inputting the source for data path
-
-1. Adapt Conda environment
-    * *Case 1* - You are using `conda env`
-        * If you do not have an existing Conda env yaml file, run `conda env export > temp.yml` from the correct Conda env
-        * Copy your existing Conda environmnent details into [`aml_config/train-conda.yml`](../src/model1/aml_config/train-conda.yml) (make sure to keep the `azureml-*` specific dependencies!)
-    * *Case 2* - You are using a `pip`
-        * If you do not have an existing `requirements.txt`, run `pip freeze > requirements.txt`
-        * Copy your content from your `requirements.txt` into [`aml_config/train-conda.yml`](../src/model1/aml_config/train-conda.yml) (make sure to keep the `azureml-*` specific dependencies!)
-    * *Case 3* - It's more complicated
-        * Make a good assumption what your dependencies are and put them into [`aml_config/train-conda.yml`](../src/model1/aml_config/train-conda.yml) (make sure to keep the `azureml-*` specific dependencies!)
+## Adapt Training Code to Output Trained Model
 
 1. Update your training code to serialize your model
-    * Update your training code to write out the model to an folder called `outputs/`
-    * Either directly leverage your ML framework or use e.g., `joblib`. Adapt your code to something like this:
-    ```python
-    import joblib, os
+    * Update your training code to write out the model to a directory called `outputs/`
+    * Use a method appropriate to your modeling framework to save the trained model to `outputs/`. Adapt your code to something like this:
 
-    output_dir = './outputs/'
-    os.makedirs(output_dir, exist_ok=True)
-    joblib.dump(value=clf, filename=os.path.join(output_dir, "model.pkl"))
-    ```
+```r
+output_dir <- "outputs"
+if (!dir.exists(output_dir)){
+  dir.create(output_dir)
+}
 
+saveRDS(mod, file = "./outputs/model.rds")
+message("Model saved")
+```
+At the end of a successful experiment run, the contents of `outputs/` will be uploaded into the Workspace from which your model.
 ## Running training locally
 
 This is the target architecture we'll use for this section:
@@ -57,18 +32,24 @@ This is the target architecture we'll use for this section:
 1. Open `Terminal` in VSCode and run the training against the local instance
     * Select `View -> Terminal` to open the terminal
     * From the root of the repo, attach to the AML workspace:
-    ```
-    az ml folder attach -g <your-resource-group> -w <your-workspace-name>
+
+    ```bash
+    $ az ml folder attach -g <your-resource-group> -w <your-workspace-name>
     # Using the defaults from before: az ml folder attach -g aml-demo -w aml-demo
     ```
+
     * Switch to our model directory:
+    
+    ```bash
+    $ cd src/model1/
     ```
-    cd src/model1/
-    ```
+
     * Submit the `train-local.runconfig` against the local host (either Compute Instance or your local Docker environment)
+
+    ```bash
+    $ az ml run submit-script -c train-local -e aml-poc-local
     ```
-    az ml run submit-script -c train-local -e aml-poc-local
-    ```
+
     * **Details:** In this case `-c` refers to the `--run-configuration-name` (which points to `aml_config/<run-configuration-name>.runconfig`) and `-e` refers to the `--experiment-name`.
     * If it runs through, perfect - if not, follow the error message and adapt data path, conda env, etc. until it works
     * Your training run will show up under `Experiments` in the UI
@@ -88,11 +69,13 @@ This is the target architecture we'll use for this section:
         * **Note:** For production, our data will obviously come from a separate data source, e.g., an Azure Data Lake
     * *Option 2* - Using CLI:
         * Execute the following commands in the terminal:
-        ```
+
+        ```bash
         az storage account keys list -g <your-resource-group> -n <storage-account-name>
         az storage container create -n <container-name> --account-name <storage-account-name>
         az storage blob upload -f <file_name.csv> -c <container-name> -n file_name.csv --account-name <storage-account-name>
         ```
+
         * In this case you need to register the container as new Datastore in AML, then create the dataset afterwards
 
 2. Provision Compute cluster in Azure Machine Learning
@@ -119,17 +102,18 @@ This is the target architecture we'll use for this section:
     * Update the `arguments` parameter and set `<DATA REFERENCE NAME>` to the same value provided for `<DATA REFERENCE NAME>` on line 23
     * Update the `target` section and point it to the name of your newly created Compute cluster (default `cpu-cluster`)
     * Update the `baseImage` parameter in the `docker` section to the image name and tag created in [01-Renvironment](01-Renvironment.md)
+     ```yml
+    baseImage: <registry_name>.azurecr.io/<repository>:<tag>
+    ```
+    See example below:
 
     ![alt text](media/02-runconfig_sample.png "Sample runconfig")
 
-    ```
-    * If you want to use a GPU-based instance, you'll need to update the base image to include the `cuda` drivers, e.g.:
-    ```
 
 4. Submit the training against the AML Compute Cluster
     * Submit the `train-amlcompute.runconfig` against the AML Compute Cluster
-    ```
-    az ml run submit-script -c train-amlcompute -e aml-poc-compute -t run.json
+    ```bash
+    $ az ml run submit-script -c train-amlcompute -e aml-poc-compute -t run.json
     ```
     * **Details:** The `-t` stands for `--output-metadata-file` and is used to generate a file that contains metadata about the run (we can use it to easily register the model from it in the next step).
     * Your training run will show up under `Experiments` in the UI
@@ -138,10 +122,11 @@ This is the target architecture we'll use for this section:
 
 1. Register model with metadata from your previous training run
     * Register model using the metadata file `run.json`, which is referencing the last training run:
-    ```
-    az ml model register -n demo-model --asset-path outputs/model.rds -f run.json \
+    ```bash
+    $ az ml model register -n demo-model --asset-path outputs/model.rds -f run.json \
       --tag key1=value1 --tag key2=value2 --property prop1=value1 --property prop2=value2
     ```
+
     * **Details:** Here `-n` stands for `--name`, under which the model will be registered. `--asset-path` points to the model's file location within the run itself (see `Outputs + logs` tab in UI). Lastly, `-f` stands for `--run-metadata-file` which is used to load the file created prior for referencing the run from which we want to register the model from.
 
 Great, you have now trained your Machine Learning on Azure using the power of the cloud. Let's move to the [next section](03-inferencing.md) where we look into moving the inferencing code to Azure.

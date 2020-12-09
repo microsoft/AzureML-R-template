@@ -16,10 +16,9 @@ Taxonomies for products and languages: https://review.docs.microsoft.com/new-hop
 
 This repo features an Azure Machine Learning (AML) Acceleration template which enables you to quickly onboard your existing R code to AML.
 
-While there is an [Azure Machine Learning SDK for R](https://azure.github.io/azureml-sdk-for-r/), the SDK is in preview status with some features that are experimental. This template aims to minimize the dependency on the R SDK by using supported AzureML CLI and YAML interfaces where possible.
+While there is an [Azure Machine Learning SDK for R](https://azure.github.io/azureml-sdk-for-r/), the SDK is in preview status with some features that are experimental, limiting production adoption. This template aims to minimize the dependency on the R SDK by using supported AzureML CLI and YAML interfaces where possible.
 
-
-The template is a fork of the Python-based [AML Acceleration Template](https://github.com/microsoft/aml-acceleration-template) adapted to enable smooth migration of your local R code into the Azure Cloud. 
+The template is based heavily on the [AML Acceleration Template](https://github.com/microsoft/aml-acceleration-template) adapted to enable smooth migration of your local R code into the Azure Cloud. 
 
 If you want to follow a guided approach to use this repo, start with [migrating your first workload to AML](instructions/README.md) and walk through the individual sections.
 

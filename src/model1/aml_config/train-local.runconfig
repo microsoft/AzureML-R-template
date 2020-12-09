@@ -15,5 +15,5 @@ environment:
     userManaged: true
   docker:
     enabled: true
-    baseImage: <IMAGE_NAME>:<TAG>
+    baseImage: <REGISTRY_NAME>.azurecr.io/<REPOSITORY>:<TAG>
     arguments: [-v, C:\some\local\path\to\sample_data:/data]

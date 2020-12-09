@@ -3,7 +3,7 @@ pipeline:
   default_compute: cpu-cluster # Point to your compute cluster
   data_references:
     training_dataset:
-      dataset_name: diabetes_dataset # Point to your dataset
+      dataset_name: <DATASET_NAME> # Point to your dataset
   steps:
     TrainingStep:
       type: PythonScriptStep

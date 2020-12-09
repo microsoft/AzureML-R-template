@@ -11,7 +11,7 @@ environment:
     condaDependenciesFile: ./train-conda.yml
   docker:
     enabled: true
-    baseImage: amldemoimages.azurecr.io/base-r-image:latest
+    baseImage: <REGISTRY_NAME>.azurecr.io/<REPOSITORY>:<TAG>
     arguments: []
 mpi:
     processCountPerNode: 1

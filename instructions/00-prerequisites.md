@@ -117,8 +117,8 @@ Some parts might already be fulfilled (editor, SSH keys), hence feel free to ski
 
 1. Copy your Machine Learning code into the repository
     * Copy your existing Machine Learning code to the [`src/model1/`](../src/model1/) directory
-    * If you already have a `train.py` or other conflicting filenames, just rename the existing examples for later use as reference
+    * If you already have a `train.R` or other conflicting filenames, just rename the existing examples for later use as reference
 
-    * However, be aware to follow the `train.py` outline with parameters for inputting the source for data path
+    * However, be aware to follow the `train.R` outline with parameters for inputting the source for input data
 
 Now that you have your development environment up and running, we can move to the [next section](01-Renvironment.md) and create an R environment for AML.

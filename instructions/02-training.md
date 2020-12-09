@@ -24,7 +24,7 @@ This is the target architecture we'll use for this section:
 
 1. Adapt local runconfig for local training
     * Open [`aml_config/train-local.runconfig`](../src/model1/aml_config/train-local.runconfig) in your editor
-    * Update the `script` parameter to point to your entry script (default is `train.py`)
+    * Update the `script` parameter to point to your entry script (default is `train.R`)
     * Update the `arguments` parameter and point your data path parameter to `/data` and adapt other parameters
     * Under the `environment -> docker` section, change `arguments: [-v, /full/path/to/sample-data:/data]` to the full path to your data folder on your disk
     * If you use the Compute Instance in Azure, copy the files into the instance first and then reference the local path
@@ -71,9 +71,9 @@ This is the target architecture we'll use for this section:
         * Execute the following commands in the terminal:
 
         ```bash
-        az storage account keys list -g <your-resource-group> -n <storage-account-name>
-        az storage container create -n <container-name> --account-name <storage-account-name>
-        az storage blob upload -f <file_name.csv> -c <container-name> -n file_name.csv --account-name <storage-account-name>
+        $ az storage account keys list -g <your-resource-group> -n <storage-account-name>
+        $ az storage container create -n <container-name> --account-name <storage-account-name>
+        $ az storage blob upload -f <file_name.csv> -c <container-name> -n file_name.csv --account-name <storage-account-name>
         ```
 
         * In this case you need to register the container as new Datastore in AML, then create the dataset afterwards

@@ -1,0 +1,20 @@
+pipeline:
+  description: Training pipeline
+  default_compute: cpu-cluster # Point to your compute cluster
+  data_references:
+    training_dataset:
+      dataset_name: <DATASET_NAME> # Point to your dataset
+  steps:
+    TrainingStep:
+      type: PythonScriptStep
+      name: training-step
+      source_directory: ./
+      runconfig: aml_config/pipeline-runconfig.yml
+      allow_reuse: true
+      script_name: r_pipeline.py 
+      arguments: [Rscript, train.R, --input_data, /data] # Adapt to your training script's name and arguments
+      inputs:
+        training_data:
+          source: training_dataset
+          bind_mode: mount
+          path_on_compute: /data

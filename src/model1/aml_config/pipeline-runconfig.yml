@@ -1,7 +1,5 @@
-script: train.R
-arguments: [--input_data, /data]
-target: local
-framework: R
+target: cpu-cluster
+framework: Python
 communicator: None
 nodeCount: 1
 environment:
@@ -10,10 +8,10 @@ environment:
   python:
     userManagedDependencies: true
     interpreterPath: python
-    condaDependenciesFile: aml_config/train-conda.yml
-  r:
-    userManaged: true
+    condaDependenciesFile: ./train-conda.yml
   docker:
     enabled: true
     baseImage: <REGISTRY_NAME>.azurecr.io/<REPOSITORY>:<TAG>
-    arguments: [-v, C:\some\local\path\to\sample_data:/data]
+    arguments: []
+mpi:
+    processCountPerNode: 1

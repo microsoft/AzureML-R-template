@@ -63,7 +63,7 @@ This is the target architecture we'll use for this section:
     * *Option 1* - Using Azure Storage Explorer:
         * Install [Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/)
         * Navigate into the correct subscription, then select the `Storage Account` that belongs to the AML workspace (should be named similar to the workspace with some random number), then select `Blob Containers` and find the container named `azureml-blobstore-...`
-        * In this container, create a new folder for your dataset, you can name it `training_data`
+        * In this container, create a new folder for your dataset, in this example is names `diabetes_dataset`
         ![alt text](media/01-create_new_folder.png "Create new folder")       
         * Upload your data to that new folder
         * **Note:** For production, our data will obviously come from a separate data source, e.g., an Azure Data Lake

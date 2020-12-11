@@ -1,3 +1,4 @@
+# Test workflow
 # Actions train a model on Azure Machine Learning
 name: aml-train-register-workflow 
 on:

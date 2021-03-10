@@ -6,44 +6,31 @@ While this approach can be used to some extent for R environments, we recommend 
 
 ## Define Docker Image
 
-A Docker image for use with AML should include the necessary AML Python environment to which we will add the necessary R and R package components. An example of a custom Docker image for running the template sample is included in [`src/model1/docker/custom`](../src/model1/docker/custom/).  This example follows  patterns for creating R Docker images used by the [The Rocker Project](https://www.rocker-project.org/) with modifications to support running R jobs in Azure Machine Learning.
+A Docker image for use with AML should include the necessary AML Python environment to which we will add the necessary R and R package components. An example of a custom Docker image for running the template sample is included in [`src/model1/docker/`](../src/model1/docker/).  This example uses a Docker base image from the [The Rocker Project](https://www.rocker-project.org/) with the addition of python to support running jobs in Azure Machine Learning.
 
-In particular, the sample is built on one of the [AML Base Images](https://github.com/Azure/AzureML-Containers)
-
-```dockerfile
-FROM mcr.microsoft.com/azureml/base:openmpi3.1.2-ubuntu18.04
-```
-
-This ensures that the image has the required Python and dependencies environment for AML.
-
-The sample Dockerfile also installs the AML R SDK to support optional run logging in AML from R code.
+The sample Docker image is below and is based on the rocker base image with R 4.0 and the tidyverse collection of packages preinstalled.:
 
 ```dockerfile
-# Set up miniconda environment for reticulate configuration
-# and install and configure R AzureML SDK
-RUN ln -s /opt/miniconda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". /opt/miniconda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-    echo "conda activate base" >> ~/.bashrc
+FROM rocker/tidyverse:4.0.0-ubuntu18.04
+ 
+# Install python
+RUN apt-get update -qq && \
+ apt-get install -y python3
+ 
+# Create link for python
+RUN ln -f /usr/bin/python3 /usr/bin/python
 
-ENV TAR="/bin/tar"
-RUN R -e "install.packages(c('remotes', 'reticulate'), repos = 'https://cloud.r-project.org/')" && \
-    R -e "remotes::install_github('https://github.com/Azure/azureml-sdk-for-r')" && \
-    R -e "library(azuremlsdk); install_azureml()" && \
-    echo "Sys.setenv(RETICULATE_PYTHON='/opt/miniconda/envs/r-reticulate/bin/python3')" >> ~/.Rprofile
+# Install optparse package to support argument passing
+RUN R -e "install.packages(c('optparse'), repos = 'https://cloud.r-project.org/')"
 
+# Install additional R packages needed for training code
+RUN R -e "install.packages(c('caret', 'e1071'), repos = 'https://cloud.r-project.org/')"
 ```
 
-To customize your R environment for your code, you can edit the version of R you wish to install near the top of the Dockerfile.
 
-```dockerfile
-ENV R_BASE_VERSION 4.0.3
-```
+To customize the R environment for your code, you may install additional R packages or other software needed by your training. For the sample code run in this template, caret and e1071 packages are installed.
 
-Then, at the end of the Dockerfile, add `RUN` instructions to install the R packages your code requires. Add any additional Dockerfile commands here to install other software that might be required by your training code (e.g. Java, MXNet, etc).
 
-```dockerfile
-RUN R -e "install.packages(c('e1071'), repos = 'https://cloud.r-project.org/')"
-```
 
 ## Build and Publish Docker Image in Azure Container Registry
 

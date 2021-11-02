@@ -2,7 +2,13 @@
 
 ML Pipelines in AML allows you to group multiple parts of your Machine Learning process and group it into one pipeline. For example, a pipeline could consist of feature preprocessing, model training, model evaluation and finally model registration. A pipeline wraps these steps into one self-contained unit, that you can either run on-demand through AML or expose as a RESTful API. The latter will allow other users or application to trigger this pipeline and run it. By adding parameters, this pipeline can be made dynamic, e.g., allowing to feed in new data as it becomes available.
 
-AML offers 3 different ways of creating pipelines, using the [AML CLI and YAML](https://docs.microsoft.com/en-us/azure/machine-learning/reference-azure-machine-learning-cli#ml-pipeline-management), the [Python SDK](https://docs.microsoft.com/en-us/azure/machine-learning/concept-ml-pipelines#building-pipelines-with-the-python-sdk), or the [Visual Designer](https://docs.microsoft.com/en-us/azure/machine-learning/concept-designer). This repo will show how to create a simple pipeline for R using CLI/YAML and a small Python front-end to execute the R code.
+AML offers 3 different ways of creating pipelines, using the [AML CLI and YAML](https://docs.microsoft.com/en-us/azure/machine-learning/reference-azure-machine-learning-cli#ml-pipeline-management), the [Python SDK](https://docs.microsoft.com/en-us/azure/machine-learning/concept-ml-pipelines#building-pipelines-with-the-python-sdk), or the [Visual Designer](https://docs.microsoft.com/en-us/azure/machine-learning/concept-designer). This example shows two approaches to creating a simple pipeline to run R code:
+
+1. CLI/YAML - This approach uses a [PythonScriptStep](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-create-machine-learning-pipelines#steps) and a small Python wrapper to execute the R code and can easily be executed from the command line. 
+2. Python Notebook - This approach builds the entire pipeline in Python and uses [CommandStep](https://docs.microsoft.com/en-us/python/api/azureml-pipeline-steps/azureml.pipeline.steps.commandstep?view=azure-ml-py#remarks) to execute the R code directly via `Rscript`. An advantage of this method over CLI/YAML for AzureML CLI v1 is the ability to pass a reference to an AzureML Dataset to the R script.
+
+To build and publish the pipeline using option #2, load and execute src/model/1/Create-Diabetes-Training-Pipeline.ipynb in Jupyter on the Compute Instance. To use the CLI/YAML approach, follow the instructions below.
+ 
 ## Execute training in a ML Pipeline
 
 * Open the terminal and navigate to the [`src/model1/aml_config`](../src/model1/aml_config/) folder

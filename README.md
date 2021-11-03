@@ -1,4 +1,4 @@
-[![cli-job-r-penguins](https://github.com/microsoft/AzureML-R-template/actions/workflows/cli-job-r-penguins.yml/badge.svg?branch=azureml-cli-v2)](https://github.com/microsoft/AzureML-R-template/actions/workflows/cli-job-r-penguins.yml)
+[![cli-job-r-penguins](https://github.com/microsoft/AzureML-R-template/actions/workflows/cli-job-r-penguins.yml/badge.svg)](https://github.com/microsoft/AzureML-R-template/actions/workflows/cli-job-r-penguins.yml)
 
 # Azure Machine Learning R Template
 
@@ -16,10 +16,13 @@ Taxonomies for products and languages: https://review.docs.microsoft.com/new-hop
   <img src="https://www.r-project.org/logo/Rlogo.png" alt="R-Project" width="180px"/>
 </p>
 
-This repo features an Azure Machine Learning (AML)  template which enables you to quickly onboard your existing R code to AML.
+This repo provides examples for using R with Azure Machine Learning. While an [Azure Machine Learning SDK for R](https://azure.github.io/azureml-sdk-for-r/) exists, this SDK will be deprecated in the near future. This goal of this repository is to provide examples for running R in Azure Machine Learning without a dependency on an R SDK by using supported AzureML CLI and YAML interfaces where possible.
 
-While there is an [Azure Machine Learning SDK for R](https://azure.github.io/azureml-sdk-for-r/), this SDK will be deprecated in the near future. This goal of this repository is to provide a project template and examples for running R in Azure Machine Learning without a dependency on an R SDK by using supported AzureML CLI and YAML interfaces where possible and following patterns for the [Azure ML CLI v1](https://docs.microsoft.com/en-us/azure/machine-learning/reference-azure-machine-learning-cli) consistent with the [Azure ML CLI v2](https://docs.microsoft.com/en-us/cli/azure/ml?view=azure-cli-latest) currently in preview to minimize future migration effort.
+Current examples for running R using the AML CLI include:
+* Creating R environments for using AmlCompute
+* Onboarding existing R code to migrate to Azure ML
 
+**[Note: the examples in the main branch are based on the [AzureML CLI v2](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-train-cli), currently in preview. This offers a simpler and more reliable approach to running R in AzureML but updates may introduce breaking changes. For a supported approach, refer to the azureml-cli-v1 branch of this repo. When CLI v2 is released, the v1 branch will be deleted. ]**
 ## Getting Started
 
 To begin, start with [migrating your first R workload to AML](01-job/README.md) in /01-job

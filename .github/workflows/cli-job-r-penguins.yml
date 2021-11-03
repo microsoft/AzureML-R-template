@@ -7,7 +7,7 @@ on:
       - azureml-cli-v2
   pull_request:
     branches:
-      - azureml-cli-v2
+      - main
     paths:
       - 01-job/**
       - .github/workflows/cli-job-r-penguins.yml

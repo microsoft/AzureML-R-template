@@ -18,32 +18,23 @@ This repo features an Azure Machine Learning (AML)  template which enables you t
 
 While there is an [Azure Machine Learning SDK for R](https://azure.github.io/azureml-sdk-for-r/), this SDK will be deprecated in the near future. This goal of this repository is to provide a project template and examples for running R in Azure Machine Learning without a dependency on an R SDK by using supported AzureML CLI and YAML interfaces where possible and following patterns for the [Azure ML CLI v1](https://docs.microsoft.com/en-us/azure/machine-learning/reference-azure-machine-learning-cli) consistent with the [Azure ML CLI v2](https://docs.microsoft.com/en-us/cli/azure/ml?view=azure-cli-latest) currently in preview to minimize future migration effort.
 
-The template is based heavily on the [AML Acceleration Template](https://github.com/microsoft/aml-acceleration-template) adapted to enable smooth migration of your local R code into the Azure Cloud. 
-
-If you want to follow a guided approach to use this repo, start with [migrating your first workload to AML](instructions/README.md) and walk through the individual sections.
-
 ## Getting Started
 
-We recommend you to start with [migrating your first workload to AML](instructions/README.md) as it covers all prerequisites and outlines a simple and proven step-by-step approach.
+To begin, start with [migrating your first R workload to AML](01-job/README.md) in /01-job
 
 ## Contents
 
-This repo follows a pre-defined structure for storing your model code, pipelines, etc.
+This repo structure is as follows:
 
 | File/folder       | Description                                |
 |-------------------|--------------------------------------------|
-| `.cloud/.azure` | Configuration files for the Azure Machine Learning GitHub Actions used for MLOps |
 | `.github/workflows`| Folder for GitHub workflows used for MLOps |
-| `doc/`| A step-by-step guide on how to onboard your first workload to AML |
-| `sample-data/` | Some small sample data used for the template example |
-| `src/` | Model(s) code and other required code assets |
-| `src/model1` | An example showing docker environment, remote training, and automation for R code in AML |
-
+| `01-job/` | Simple AzureML job example to train a model on the penguins dataset |
+| `utils` | Environment setup script run by GitHub workflows |
 
 ## Authors
 
-* Scott Donohoo, Data & AI Technical Specialist, Americas GBB
-* Anthony Martin, Data & AI Cloud Solution Architect
+* Scott Donohoo, Cloud Solution Architect, Microsoft AI Rangers Team
 
 ## Contributing
 

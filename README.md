@@ -9,7 +9,7 @@ Taxonomies for products and languages: https://review.docs.microsoft.com/new-hop
 -->
 
 <p align="center">
-  <img src="instructions/media/aml_logo.png" width="150px" />
+  <img src="doc/media/aml_logo.png" width="150px" />
   <img src="https://i.ya-webdesign.com/images/a-plus-png-2.png" alt="plus" height="75"/>
   <img src="https://www.r-project.org/logo/Rlogo.png" alt="R-Project" width="180px"/>
 </p>

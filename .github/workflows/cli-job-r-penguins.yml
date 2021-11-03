@@ -5,6 +5,10 @@ on:
   push:
     branches:
       - azureml-cli-v2
+    paths:
+      - 01-job/**
+      - .github/workflows/cli-job-r-penguins.yml
+      - utils/setup.sh
   pull_request:
     branches:
       - main

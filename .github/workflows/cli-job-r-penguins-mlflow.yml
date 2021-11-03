@@ -5,11 +5,15 @@ on:
   push:
     branches:
       - azureml-cli-v2
+    paths:
+      - 02-logging/**
+      - .github/workflows/cli-job-r-penguins-mlflow.yml
+      - utils/setup.sh
   pull_request:
     branches:
       - main
     paths:
-      - 02-job/**
+      - 02-logging/**
       - .github/workflows/cli-job-r-penguins-mlflow.yml
       - utils/setup.sh
 jobs:
@@ -43,4 +47,4 @@ jobs:
           echo "Job status not failed or completed"
           exit 2
         fi
-      working-directory: 02-job
+      working-directory: 02-logging

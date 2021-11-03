@@ -1,4 +1,4 @@
-[![cli-job-penguins](https://github.com/microsoft/AzureML-R-template/actions/workflows/cli-job-penguins.yml/badge.svg?branch=azureml-cli-v2&event=workflow_run)](https://github.com/microsoft/AzureML-R-template/actions/workflows/cli-job-penguins.yml)
+[![cli-job-r-penguins](https://github.com/microsoft/AzureML-R-template/actions/workflows/cli-job-r-penguins.yml/badge.svg?branch=azureml-cli-v2)](https://github.com/microsoft/AzureML-R-template/actions/workflows/cli-job-r-penguins.yml)
 
 # Azure Machine Learning R Template
 

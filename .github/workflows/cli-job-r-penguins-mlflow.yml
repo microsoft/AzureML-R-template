@@ -1,4 +1,4 @@
-name: cli-job-r-penguins
+name: cli-job-r-penguins-mlflow
 on:
   schedule:
     - cron: "0 0/4 * * *"
@@ -6,15 +6,15 @@ on:
     branches:
       - azureml-cli-v2
     paths:
-      - 01-job/**
-      - .github/workflows/cli-job-r-penguins.yml
+      - 02-logging/**
+      - .github/workflows/cli-job-r-penguins-mlflow.yml
       - utils/setup.sh
   pull_request:
     branches:
       - main
     paths:
-      - 01-job/**
-      - .github/workflows/cli-job-r-penguins.yml
+      - 02-logging/**
+      - .github/workflows/cli-job-r-penguins-mlflow.yml
       - utils/setup.sh
 jobs:
   build:
@@ -47,4 +47,4 @@ jobs:
           echo "Job status not failed or completed"
           exit 2
         fi
-      working-directory: 01-job
+      working-directory: 02-logging

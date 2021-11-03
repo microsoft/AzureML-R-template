@@ -1,3 +1,5 @@
+[![cli-job-penguins](https://github.com/microsoft/AzureML-R-template/actions/workflows/cli-job-penguins.yml/badge.svg?branch=azureml-cli-v2&event=workflow_run)](https://github.com/microsoft/AzureML-R-template/actions/workflows/cli-job-penguins.yml)
+
 # Azure Machine Learning R Template
 
 <!-- 
@@ -31,10 +33,6 @@ This repo structure is as follows:
 | `.github/workflows`| Folder for GitHub workflows used for MLOps |
 | `01-job/` | Simple AzureML job example to train a model on the penguins dataset |
 | `utils` | Environment setup script run by GitHub workflows |
-
-## Authors
-
-* Scott Donohoo, Cloud Solution Architect, Microsoft AI Rangers Team
 
 ## Contributing
 

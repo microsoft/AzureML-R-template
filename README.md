@@ -1,5 +1,3 @@
-[![cli-job-r-penguins](https://github.com/microsoft/AzureML-R-template/actions/workflows/cli-job-r-penguins.yml/badge.svg)](https://github.com/microsoft/AzureML-R-template/actions/workflows/cli-job-r-penguins.yml)
-
 # Azure Machine Learning R Template
 
 <!-- 
@@ -25,7 +23,7 @@ Current examples for running R using the AML CLI include:
 **[Note: the examples in the main branch are based on the [AzureML CLI v2](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-train-cli), currently in preview. This offers a simpler and more reliable approach to running R in AzureML but updates may introduce breaking changes. For a supported approach, refer to the azureml-cli-v1 branch of this repo. When CLI v2 is released, the v1 branch will be deleted. ]**
 ## Getting Started
 
-To begin, start with [migrating your first R workload to AML](01-job/README.md) in /01-job
+To begin, start in 01-job/.
 
 ## Contents
 
@@ -35,6 +33,7 @@ This repo structure is as follows:
 |-------------------|--------------------------------------------|
 | `.github/workflows`| Folder for GitHub workflows used for MLOps |
 | `01-job/` | Simple AzureML job example to train a model on the penguins dataset |
+| `02-logging/` | Simple AzureML job example to train a model on the penguins dataset with logging to experiment using MLflow |
 | `utils` | Environment setup script run by GitHub workflows |
 
 ## Contributing

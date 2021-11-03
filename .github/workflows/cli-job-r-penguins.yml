@@ -1,4 +1,4 @@
-name: cli-job-penguins
+name: cli-job-r-penguins
 on:
   schedule:
     - cron: "0 0/4 * * *"
@@ -10,7 +10,7 @@ on:
       - azureml-cli-v2
     paths:
       - 01-job/**
-      - .github/workflows/cli-job-penguins.yml
+      - .github/workflows/cli-job-r-penguins.yml
       - utils/setup.sh
 jobs:
   build:

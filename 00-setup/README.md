@@ -1,6 +1,6 @@
 # Set up the Azure Machine Learning CLI and Workspace
 
-This page describes the commands to prepare a CLI and workspace environment to run the examples in this repository. For further information, refer to the following documentation:
+This page describes the commands to prepare a CLI and workspace environment for running the examples in this repository. For further in-depth information, refer to the following documentation:
 
 *  [Install and set up the CLI (v2)](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-configure-cli)
 * [Train models (create jobs) with the CLI (v2)](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-train-cli)
@@ -28,28 +28,36 @@ az login
 az account set -s "<YOUR_SUBSCRIPTION_NAME_OR_ID>"
 ```
 
+### Set environment variables for use in subsequent commands
+
+Choose the Azure region you will run your Azure ML jobs in and select resource group name and a workspace name and set variables for each. For example:
+
+```bash
+GROUP="azureml-examples"
+LOCATION="eastus"
+WORKSPACE="main"
+```
+
 ### Create an Azure resource group
 
 ```bash
-az group create -n "azureml-r-examples-rg" -l "southcentralus"
+az group create -n $GROUP -l $LOCATION"
 ```
-
-### Configure the default resource group and select as Azure ML workspace name
+### Create the the Azure ML workspace
 
 ```bash
-az configure --defaults group="azureml-r-examples-rg" workspace="main"
+az ml workspace create -n $WORKSPACE -g $GROUP -l $LOCATION
+```
+### Configure the default resource group and Azure ML workspace
+
+```bash
+az configure --defaults group=$GROUP workspace=$WORKSPACE location=$LOCATION
 ``` 
 
-### Create the named workspace
-
-```bash
-az ml workspace create
-```
-
-### Within the new workspace, create a compute cluster to run R jobs
+### Within the default workspace, create a compute cluster to run R jobs
 
 ```bash
 az ml compute create -n cpu-cluster --type amlcompute --min-instances 0 --max-instances 2
 ```
 
-Proceed to 01-job/ to run your first R job in Azure ML.
+Change directory  to 01-job/ to run your first R job in Azure ML.

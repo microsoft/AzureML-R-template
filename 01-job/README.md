@@ -9,7 +9,7 @@ The file structure for the example job is as follows:
 |-------------------|--------------------------------------------|
 | `data/penguins.csv` | The sample [Palmer Penguins](https://allisonhorst.github.io/palmerpenguins/) dataset for training the model. |
 | `src/penguins.R` | R code train a random forest model on the penguins dataset. |
-| `Dockerfile` | A Docker file based on a [rocker/tidyverse](https://hub.docker.com/r/rocker/tidyverse) image that will be used to create an R execution environment for Azure ML |
+| `environment/Dockerfile` | A Docker file based on a [rocker/tidyverse](https://hub.docker.com/r/rocker/tidyverse) image that will be used to create an R execution environment for Azure ML |
 | `job.yml` | The Azure ML CLI job definition |
 
 ### Dockerfile

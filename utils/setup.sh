@@ -8,14 +8,12 @@
 az extension add -n ml -y
 # </az_ml_install>
 
-# <az_group_create>
-az group create -n "azureml-r-template-rg" -l "southcentralus"
-# </az_group_create>
+# <set_variables>
+GROUP="azureml-r-template-rg"
+LOCATION="southcentralus"
+WORKSPACE="main"
+# </set_variables>
 
 # <az_configure_defaults>
-az configure --defaults group="azureml-r-template-rg" workspace="main"
-# </az_configure_defaults>
-
-# <az_ml_workspace_create>
-az ml workspace create
-# </az_ml_workspace_create>
+az configure --defaults group=$GROUP workspace=$WORKSPACE location=$LOCATION
+# </az_configure_defaults> 

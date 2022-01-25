@@ -4,12 +4,18 @@ library(optparse)
 # Packages to support logging to AzureML with MLflow
 library(mlflow)
 library(carrier)
-library(azureml.mlflow)
 
-#Packages required for EDA and training
-library(tidyverse)
+#Packages required for model training
 library(caret)
 library(randomForest)
+
+# Load aml_utils.R. This is needed to use AML as MLflow backend tracking store.
+source('azureml_utils.R')
+
+# Set MLflow related env vars
+# https://www.mlflow.org/docs/latest/R-api.html#details
+Sys.setenv(MLFLOW_BIN=system("which mlflow", intern=TRUE))
+Sys.setenv(MLFLOW_PYTHON_BIN=system("which python", intern=TRUE))
 
 # Parse input arguments from AzureML job
 options <- list(
@@ -18,76 +24,53 @@ options <- list(
 opt_parser <- OptionParser(option_list = options)
 opt <- parse_args(opt_parser)
 
-# Enable mlflow logging to Azure by setting tracking uri to correct AzureML tracking uri
-mlflow_set_tracking_uri(mlflow_get_azureml_tracking_uri())
-
-# Get AZUREML_RUN_ID to set run id in mlflow calls
-run_id <- Sys.getenv("AZUREML_RUN_ID")
-
-# Set tags in the AzureML run with MLflow
-mlflow_set_tag("language", "R", run_id = run_id)
-mlflow_set_tag("dataset", "penguins", run_id = run_id)
-
 # Single argument passed is the path to the mounted data folder. Read in the penguins dataset.
 penguins <- read.csv(file.path(opt$data_folder, "penguins.csv"), stringsAsFactors = TRUE, header=TRUE)
 
-# Sample factor features in the data
-penguins %>%
-  dplyr::select(where(is.factor)) %>%
-  glimpse()
+with(run <- mlflow_start_run(), {
+  
+  # Set tags in the AzureML run with MLflow
+  mlflow_set_tag("Language", "R")
+  mlflow_set_tag("R.version", R.version$version.string)
+  mlflow_set_tag("Dataset", "penguins")
 
-# Count penguins for each species / island
-penguins %>%
-  count(species, island, .drop = FALSE)
+  # Train a random forest model to predict sex of the penguin by all other features
+  set.seed(123)
+  split <- createDataPartition(penguins$sex, p = 0.8, list = FALSE)
+  test <- penguins[-split,] # Save 20% of data for test 
+  train <- penguins[split,] # 80% of data for training
 
-# Count penguins for each species / sex
-penguins %>%
-  count(species, sex, .drop = FALSE)
+  # Set number of folds for cross validation and log as a parameter
+  # to the AzureML run using MLflow
+  cv_folds <- 10
+  mlflow_log_param("cv_folds", cv_folds)
 
-# Sample numeric features in the data
-penguins %>%
-  dplyr::select(body_mass_g, ends_with("_mm")) %>%
-  glimpse()
+  # Train the model
+  control <- trainControl(method="cv", number=cv_folds)
+  metric <- "Accuracy"
 
-# Train a random forest model to predict sex of the penguin by all other features
-split <- createDataPartition(penguins$sex, p = 0.8, list = FALSE)
+  fit.rf <- train(sex~., data=train, method="rf", metric=metric, trControl=control)
 
-test <- penguins[-split,] # Save 20% of data for test validation here
-train <- penguins[split,] # 80% of data 
+  # print model output to stdout
+  print(fit.rf)
+  
+  # Create a predictor function for the model using crate.
+  # This is the expected model representation to log the model with MLflow
+  predictor <- crate(function(x) {
+    stats::predict(model,x)
+  }, model = fit.rf)
+  
+  print("Call crated model to get predictions")
+  predictions <- predictor(test)
+  
+  # Get and print confusion matrix to stdout
+  confMat <- confusionMatrix(predictions, test$sex)
+  print(confMat)
+  
+  # Log accuracy metric to AzureML run using MLflow
+  accuracy <- confMat$overall[1]
+  mlflow_log_metric(key="Accuracy", value=accuracy)
 
-# Set number of folds for cross validation
-cv_folds <- 10
-
-# Log parameters to the AzureML run using MLflow
-mlflow_log_param("cv_folds", cv_folds, run_id=run_id)
-
-# For training, use k-fold cross-validation maximizing accuracy
-control <- trainControl(method="cv", number=cv_folds)
-metric <- "Accuracy"
-
-# Train model
-set.seed(123)
-fit.rf <- train(sex~., data=train, method="rf", metric=metric, trControl=control)
-
-# Model output
-print(fit.rf)
-
-# Get predictions
-predictions <- predict(fit.rf, test)
-
-# Get confusion matrix
-confMat <- confusionMatrix(predictions, test$sex)
-print(confMat)
-
-# Log accuracy metric to AzureML run using MLflow
-accuracy <- confMat$overall[1]
-mlflow_log_metric(key="Accuracy", value=accuracy, run_id=run_id)
-
-# Create ./outputs directory and save any model artifacts to it.
-# Anything in ./outputs will be uploaded to the AzureML experiment
-output_dir = "outputs"
-if (!dir.exists(output_dir)){
-  dir.create(output_dir)
-}
-saveRDS(fit.rf, file = "./outputs/model.rds")
-message("Model saved")
+  # Log the model to the experiment using MLflow.
+  mlflow_log_model(predictor, "rf_model")
+})

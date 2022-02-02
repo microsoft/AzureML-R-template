@@ -5,7 +5,7 @@
 #az extension add --source https://azuremlsdktestpypi.blob.core.windows.net/wheels/sdk-cli-v2-public/ml-2.0.1a1-py3-none-any.whl --yes
 
 # <az_ml_install>
-az extension add -n ml -y --version 2.0.3
+az extension add -n ml -y
 # </az_ml_install>
 
 # <set_variables>

@@ -23,9 +23,7 @@ Along with azureml-core, azureml-mlflow is also installed. This installs mlflow/
 
 The R `mlflow` and `carrier` packages are installed for support of mlflow APIs and serialization of R models to register via MLflow.
 
-**Deprecated** The  `azureml.mlflow`  package defines a helper function to reformat the Azure ML tracking URI into a compatible format for R MLflow. 
-
-Azure ML/MLflow integration is now managed by functions in the `azureml_utils.R` file. This file should be sourced in your R code to enable using MLflow for logging. Functions in this file set the correct MLflow tracking URL to use Azure ML as a backend as well as manage the Azure ML token refresh for long-running jobs.
+Azure ML/MLflow integration is managed by functions in the `azureml_utils.R` file. This file should be be placed in the snapshot directory your R source code is and sourced in your R code to enable using MLflow for logging. Functions in this file set the correct MLflow tracking URL to use Azure ML as a backend as well as manage the Azure ML token refresh for long-running jobs.
 
 After sourcing `azureml_utils.R`, your R code should set the `MLFLOW_PYTHON_BIN` and `MLFLOW_BIN` environment variables to point to the azureml.mlflow instance of mlflow to avoid duplicate installations of mlflow. This also removes the necessity to run `mlflow::install_mlflow()` from R.
 
@@ -57,7 +55,9 @@ Sys.setenv(MLFLOW_BIN=system("which mlflow", intern=TRUE))
 Sys.setenv(MLFLOW_PYTHON_BIN=system("which python", intern=TRUE))
 ```
 
-At this point, you can add logging of tags, parameters, and metrics to your R code. For example:
+You can then add logging of MLflow tags, parameters, metrics, artifacts, and models to your R code.
+
+For example:
 
 ```r
 mlflow_set_tag("R.version", R.version$version.string)
@@ -65,6 +65,8 @@ mlflow_set_tag("R.version", R.version$version.string)
 mlflow_log_param("cv_folds", cv_folds)
 
 mlflow_log_metric(key="Accuracy", value=accuracy)
+
+mlflow_log_artifact("confusion_matrix.png", artifact_path = "plots")
 ```
 See `src/penguins.R` for more detail.
 

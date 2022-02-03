@@ -55,7 +55,7 @@ with(run <- mlflow_start_run(), {
   # print model output to stdout in the AzureML run log
   print(fit.rf)
   
-  
+
   # Create a predictor function for the model using crate.
   # This is the expected model representation to log the model with MLflow
   predictor <- crate(function(x) {
@@ -64,7 +64,7 @@ with(run <- mlflow_start_run(), {
   
   print("Call crated model to get predictions")
   predictions <- predictor(test)
-  
+
   
   # Log accuracy metric to AzureML run using MLflow
   accuracy <- (sum(predictions == test$sex) / nrow(test))
@@ -80,7 +80,7 @@ with(run <- mlflow_start_run(), {
   
   ggsave("confusion_matrix.png")
   mlflow_log_artifact("confusion_matrix.png", artifact_path = "plots")
- 
+
 
   # Log the model to the experiment using MLflow.
   mlflow_log_model(predictor, "rf_model")

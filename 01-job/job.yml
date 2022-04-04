@@ -1,17 +1,15 @@
 $schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
-command: >
+command: >-
   Rscript penguins.R
   --data ${{inputs.penguins_datadir}}
-code:
-  local_path: src
+code: src
 inputs:
   penguins_datadir:
-    dataset: 
-      local_path: data
+    path: data
     mode: ro_mount
 environment:
   build:
-    local_path: environment
+    path: environment
 compute: azureml:cpu-cluster
 display_name: cli-job-r-penguins
 experiment_name: cli-job-r-penguins

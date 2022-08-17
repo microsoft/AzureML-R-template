@@ -5,9 +5,12 @@ library(optparse)
 library(mlflow)
 library(carrier)
 
-#Packages required for model training
+# Packages required for model training
 library(caret)
 library(randomForest)
+
+# Dump environment for debugging
+print(Sys.getenv())
 
 # Load aml_utils.R. This is needed to use AML as MLflow backend tracking store.
 source('azureml_utils.R')

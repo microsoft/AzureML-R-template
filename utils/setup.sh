@@ -11,7 +11,7 @@ az extension add -n ml -y
 # <set_variables>
 GROUP="azureml-r-template-rg"
 LOCATION="southcentralus"
-WORKSPACE="main"
+WORKSPACE="azureml-r-template-ws"
 # </set_variables>
 
 # <az_configure_defaults>

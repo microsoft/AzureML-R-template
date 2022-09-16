@@ -5,7 +5,7 @@ library(optparse)
 library(mlflow)
 library(carrier)
 
-#Packages required for model training
+# Packages required for model training
 library(caret)
 library(randomForest)
 

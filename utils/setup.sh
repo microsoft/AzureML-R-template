@@ -9,9 +9,9 @@ az extension add -n ml -y
 # </az_ml_install>
 
 # <set_variables>
-GROUP="azureml-r-template-rg"
+GROUP="azureml-examples-rg"
 LOCATION="southcentralus"
-WORKSPACE="main"
+WORKSPACE="azureml-examples-ws"
 # </set_variables>
 
 # <az_configure_defaults>

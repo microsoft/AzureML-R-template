@@ -34,12 +34,17 @@ with(run <- mlflow_start_run(), {
   mlflow_set_tag("R.version", R.version$version.string)
   mlflow_set_tag("Dataset", "penguins")
 
+  # # Register the dataset with mlflow
+  # mlflow_log_dataset(penguins, "penguins")
+
 
   # Set number of folds for cross validation and log as a parameter
   # to the AzureML run using MLflow
   cv_folds <- 10
   mlflow_log_param("cv_folds", cv_folds)
 
+  # Log as a parameter a timestamp to the AzureML run using MLflow
+  mlflow_log_param("timestamp", Sys.time())
   
   # Train a random forest model to predict sex of the penguin by all other features
   set.seed(123)
@@ -79,9 +84,9 @@ with(run <- mlflow_start_run(), {
   autoplot(cm, type = "heatmap") + scale_fill_gradient(low="#D6EAF8",high = "#2E86C1")
   
   ggsave("confusion_matrix.png")
-  mlflow_log_artifact("confusion_matrix.png", artifact_path = "plots")
+  mlflow_log_artifact("confusion_matrix.png", artifact_path = "confusion_matrix.png")
 
 
   # Log the model to the experiment using MLflow.
-  mlflow_log_model(predictor, "rf_model")
+  mlflow_log_model(predictor, "rf_model.rds")
 })

@@ -9,9 +9,9 @@ az extension add -n ml -y
 # </az_ml_install>
 
 # <set_variables>
-GROUP="azureml-r-template-rg"
-LOCATION="southcentralus"
-WORKSPACE="azureml-r-template-ws"
+GROUP="logista-R"
+LOCATION="westeurope"
+WORKSPACE="mlw-logista-R"
 # </set_variables>
 
 # <az_configure_defaults>

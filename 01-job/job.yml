@@ -10,7 +10,7 @@ inputs:
 environment:
   build:
     path: environment
-compute: azureml:cpu-cluster
+compute: azureml:vm-cluster
 display_name: cli-job-r-penguins
 experiment_name: cli-job-r-penguins
 description: Train a random forest model on the Palmer Penguins dataset

@@ -10,7 +10,7 @@ inputs:
 environment:
   build:
     path: environment
-compute: azureml:cpu-cluster
+compute: azureml:vm-cluster
 display_name: cli-job-r-penguins-logging
 experiment_name: cli-job-r-penguins-logging
 description: Train a random forest model to predict gender on the Palmer Penguins dataset with logging using MLflow
